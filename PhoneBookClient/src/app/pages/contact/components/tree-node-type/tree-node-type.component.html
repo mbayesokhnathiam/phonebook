@@ -1,0 +1,14 @@
+<ul class="tree">
+    <li *ngFor="let item1 of level1Data">
+      <span (click)="toggleCollapse(item1)" [class.collapsed]="!item1.expanded" class="node">
+        <img src="assets/folder-closed.png" *ngIf="!item1.expanded" alt="Folder Closed" class="folder-icon">
+        <img src="assets/folder-open.png" *ngIf="item1.expanded" alt="Folder Open" class="folder-icon">
+        {{ item1.name }}
+      </span>
+      <ul *ngIf="item1.expanded">
+        <li *ngFor="let item2 of item1.children">
+            <a (click)="sendIdInstitut(item2.id)" ><span class="node">{{ item2.name }}</span></a>
+        </li>
+      </ul>
+    </li>
+  </ul>

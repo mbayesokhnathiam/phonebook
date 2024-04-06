@@ -1,0 +1,138 @@
+<form [formGroup]="createContactForm">
+<div class="row">
+    
+    <div class="col-lg-8">
+        
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">NOUVEAU CONTACT</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="product-title-input">Prénom<span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" formControlName="prenom"
+                            placeholder="Entrer le prénom">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="product-title-input">Nom<span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" formControlName="nom"
+                            placeholder="Entrer le nom">
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label class="form-label" for="product-title-input">Adresse</label>
+                        <input type="text" class="form-control" formControlName="adresse"
+                            placeholder="Entrer l'adresse">
+                    </div> -->
+                    <div class="mb-3">
+                        <label class="form-label" for="product-title-input">Fonction<span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" formControlName="fonction"
+                            placeholder="Entrer la fonction">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="product-title-input">Email</label>
+                        <input type="text" class="form-control" formControlName="email"
+                            placeholder="Entrer l'adresse email">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="product-title-input">Téléphone fixe</label>
+                        <input type="text" class="form-control" formControlName="telephone_fixe"
+                            placeholder="Entrer le numéro de téléphone fixe">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="product-title-input">Téléphone mobile<span style="color: red;">*</span></label>
+                        <input type="text" placeholder="Entrer le numéro de téléphone mobile" class="form-control" formControlName="telephone_mobile">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="product-title-input">Téléphone domicile<span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" placeholder="Entrer le numéro de téléphone domicile" formControlName="telephone_mobile">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="product-title-input">Commentaire</label>
+                        <textarea class="form-control"  rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- end card -->
+  
+   
+            <div class="text-end mb-3">
+                <button (click)="saveContact()" [disabled]="!createContactForm.valid" type="submit" class="btn btn-success w-sm">Enregistrer</button>
+            </div>
+        
+  
+  
+    </div>
+    <!-- end col -->
+  
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">INFORMATIONS INSTITUTION</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="choices-publish-status-input" class="form-label">Pays<span
+                            style="color: red;">*</span></label>
+                    <select class="form-control" formArrayName="pays" (change)="onCountrieSelectChange($event)">
+                        <option value="" disabled selected>Selectionner le pays</option>
+                        @for (country of pays; track country.id){
+                        <option [value]="country.id">
+                            {{ country.nom_fr_fr }}
+                        </option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="choices-publish-status-input" class="form-label">Ville<span
+                            style="color: red;">*</span></label>
+                    <select formArrayName="ville" class="form-control" data-choices data-choices-search-false
+                        (change)="onVilleSelectChange($event)">
+                        <option value="" selected disabled>Selectionner la ville</option>
+                        @for (ville of villes; track ville.id){
+                        <option [value]="ville.id">
+                            {{ ville.nom }}
+                        </option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="choices-publish-status-input" class="form-label">Type institution<span
+                            style="color: red;">*</span></label>
+                    <select class="form-control" formArrayName="type" (change)="onTypeSelectChange($event)">
+                        <option value="" selected disabled>Selectionner le type</option>
+                        @for (type of types; track type.id){
+                        <option [value]="type.id">
+                            {{ type.nom }}
+                        </option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="choices-publish-status-input" class="form-label">Institution<span
+                            style="color: red;">*</span></label>
+
+                    <input type="text" [value]="nomInstitut" class="form-control" placeholder="Nom institution"
+                        (input)="onInputChange($event.target)">
+                    <ul class="autocomplete-list" *ngIf="showOptions">
+                        <li *ngFor="let i of filteredInstituts" (click)="selectOption(i)">{{ i.nom }}</li>
+                    </ul>
+                </div>
+
+
+
+                <!-- <div class="mb-3">
+            <label class="form-label" for="product-title-input">Site web</label>
+            <input type="text" class="form-control" formControlName="site_web"
+                placeholder="Entrer le site web">
+        </div> -->
+
+
+            </div>
+        </div>
+        <!-- end card body -->
+    </div>
+
+  </div>
+</form>

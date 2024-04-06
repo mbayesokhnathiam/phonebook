@@ -1,0 +1,34 @@
+{
+  "HEADER": {
+    "MORE": {
+      "TEXT": "Suite"
+    }
+  },
+  "MENUITEMS": {
+    "MENU": {
+      "TEXT": "MENU"
+    },
+    "DASHBOARD": {
+      "TEXT": "Tableaux de bord",
+      "BADGE": "Nouvelle"
+    },
+    "SETTINGS": {
+      "TEXT": "Paramétrage",
+      "BADGE": "Nouvelle",
+      "LIST": {
+        "GENERAL": "Général",
+        "ROLE":"Rôle",
+        "ORGANIGRAMME":"Organigramme",
+        "PAYS": "Pays",
+        "VILLE": "Villes",
+        "TYPE": "Type instituts",
+        "INSTITUT": "Instituts"
+      }
+    },
+    "USER": {
+      "TEXT": "Utilisateurs",
+      "BADGE": "Nouvelle"
+    }
+    
+  }
+}

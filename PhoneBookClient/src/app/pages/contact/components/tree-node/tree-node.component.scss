@@ -1,0 +1,45 @@
+/* tree.component.css */
+
+.tree {
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    padding-left: 20px;
+  }
+  
+  .node {
+    cursor: pointer;
+    font-size: 16px; /* Taille de police plus grande */
+    margin: 5px 0; /* Marge externe pour chaque élément */
+    padding: 5px; /* Padding interne pour chaque élément */
+  }
+  
+  .node.collapsed::before,
+  .node::before {
+    font-weight: bold; /* Texte en gras */
+    font-size: 17px; /* Taille de police plus grande */
+    margin: 10px;
+  }
+  
+  .node.collapsed::before {
+    content: '\2795 '; /* (+) en unicode */
+  }
+  
+  .node::before {
+    content: '\2796 '; /* (-) en unicode */
+  }
+  
+  .node:hover {
+    text-decoration: none;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding-left: 20px;
+  }
+
+  .folder-icon {
+    margin-right: 5px; /* Ajoute un espace entre l'icône et le texte */
+    max-width: 24px; /* Largeur maximale de l'icône */
+    max-height: 24px; /* Hauteur maximale de l'icône */
+  }
+  
