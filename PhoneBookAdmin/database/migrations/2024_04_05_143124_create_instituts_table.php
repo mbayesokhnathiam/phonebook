@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('instituts', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
+            $table->string('telephone_fixe',30)->nullable();
+            $table->string('adresse',150)->nullable();
+            $table->string('site_web',100)->nullable();
             $table->unsignedBigInteger('typeInstitutId');
             $table->foreign('typeInstitutId')->references('id')->on('type_instituts');
             $table->timestamps();

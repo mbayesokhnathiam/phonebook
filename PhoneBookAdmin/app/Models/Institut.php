@@ -13,6 +13,9 @@ class Institut extends Model
 
     protected $fillable = [
         'nom',
+        'site_web',
+        'adresse',
+        'telephone_fixe',
         'typeInstitutId'
     ];
 

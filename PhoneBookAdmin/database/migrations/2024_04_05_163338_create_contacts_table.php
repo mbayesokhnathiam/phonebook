@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('prenom',100);
             $table->string('nom',100);
-            $table->string('adresse',150)->nullable();
-            $table->string('fonction',100);
+            $table->string('fonction',100)->nullable();
             $table->string('telephone_fixe',30)->nullable();
-            $table->string('telephone_mobile',30);
-            $table->string('site_web',100)->nullable();
+            $table->string('telephone_mobile',30)->nullable();
+            $table->string('telephone_domicile',30)->nullable();
             $table->string('email',100)->nullable();
             $table->text('commentaire')->nullable();
             $table->unsignedBigInteger('institutId');

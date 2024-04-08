@@ -8,4 +8,6 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::resource('/contacts',\App\Http\Controllers\ContactController::class);
-
+Route::get('/settings/type', [\App\Http\Controllers\SettingsController::class,'paginateTypeInstitut']);
+Route::get('/settings/format-ville', [\App\Http\Controllers\SettingsController::class,'formatVille']);
+Route::resource('/types',\App\Http\Controllers\TypeInstitutionController::class);
