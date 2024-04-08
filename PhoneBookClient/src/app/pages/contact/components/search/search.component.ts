@@ -12,6 +12,7 @@ import { TreeData } from '../tree-node/tree-data.model';
 import { Contact } from '../../models/contact.model';
 import { ContactPagination } from '../../models/page-contact.model';
 import { Router } from '@angular/router';
+import { ModalService } from '../../services/modal.service';
 
 
 @Component({
@@ -48,7 +49,7 @@ export class SearchComponent implements OnInit {
   selectedInstitut!: Institut;
   filteredInstitut!: Institut;
 
-  constructor(private contactService: ContactService, private router: Router){
+  constructor(private contactService: ContactService, private router: Router,private modalService: ModalService){
 
   }
   ngOnInit(): void {
@@ -82,6 +83,8 @@ export class SearchComponent implements OnInit {
 
   response!: TreeData;
 
+  modalOuvert = false;
+
   initSearchForm() {
     this.searchContactForm = new FormGroup({
       institut: new FormControl(''),
@@ -91,6 +94,13 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  ouvrirModal(data: any, width: any, height: any): void {
+    this.modalService.openModal(data, width, height);
+  }
+
+  fermerModal(): void {
+    this.modalOuvert = false;
+  }
 
   navigateToCreate(){
     this.router.navigate(['/contact/creer']);

@@ -7,8 +7,8 @@
                     <h5 class="card-title mb-0">CONTACTS</h5>
                   </div>
                   <div class="col-sm-auto hstack gap-2">
-                    <!-- <button (click)="navigateToCreate()" type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i>
-                      Nouveau contact</button> -->
+                    <button (click)="navigateToCreate()" type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i>
+                      Nouveau contact</button>
                     
                     <button class="btn btn-soft-danger" id="remove-actions" style="display: none"><i class="ri-delete-bin-2-line"></i></button>
                   </div>
@@ -30,7 +30,7 @@
                                     <div class="col-xxl-6 col-sm-6">
                                         <div>
                                             <select class="form-control" (change)="onCountrieSelectChange($event)">
-                                                <option value="" disabled>Selectionner le pays</option>
+                                                <option value="" >Selectionner le pays</option>
                                                 @for (country of pays; track country.id){
                                                     <option [value]="country.id">
                                                       {{ country.nom_fr_fr }}
@@ -176,7 +176,8 @@
                               <td>
                                 <div class="flex-shrink-0 ms-2">
                                   <div>
-                                      <button type="button" class="btn btn-sm btn-light"><i class="ri-eye-line align-bottom"></i></button>
+                                      <!-- <button type="button" class="btn btn-sm btn-light"><i class="ri-eye-line align-bottom"></i></button> -->
+                                      <button type="button" (click)="ouvrirModal(data, '800px', '525px')" class="btn btn-sm btn-light"><i class="ri-pencil-line align-bottom"></i></button>
                                   </div>
                               </div>
                               </td>

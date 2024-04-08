@@ -1,0 +1,56 @@
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">INFORMATIONS CONTACT</h4>
+    </div><!-- end card header -->
+
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="product-title-input">Prénom</label>
+                <input type="text" class="form-control" value="{{data.prenom}}" readonly>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="product-title-input">Nom</label>
+                <input type="text" class="form-control" value="{{data.nom}}" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="product-title-input">Fonction</label>
+                <input type="text" class="form-control" value="{{data.fonction}}" readonly>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="product-title-input">Email</label>
+                <input type="text" class="form-control"  value="{{data.email}}" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="product-title-input">Téléphone fixe</label>
+                <input type="text" class="form-control" value="{{data.telephone_fixe}}" readonly>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="product-title-input">Téléphone mobile</label>
+                <input type="text" class="form-control" value="{{data.telephone_mobile}}" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="product-title-input">Téléphone domicile</label>
+                <input type="text" class="form-control" value="{{data.telephone_domicile}}" readonly>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="product-title-input">Commentaire</label>
+                <textarea class="form-control" rows="2" readonly>{{data.commentaire}}</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="text-end mb-3">
+            <button  type="submit" (click)="fermerModal()" class="btn btn-success w-sm">Fermer</button>
+        </div>
+    </div>
+    
+    
+</div>

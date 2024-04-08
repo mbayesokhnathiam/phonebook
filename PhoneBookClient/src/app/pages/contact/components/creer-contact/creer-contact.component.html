@@ -1,69 +1,7 @@
 <form [formGroup]="createContactForm">
 <div class="row">
     
-    <div class="col-lg-8">
-        
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">NOUVEAU CONTACT</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label" for="product-title-input">Prénom<span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" formControlName="prenom"
-                            placeholder="Entrer le prénom">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="product-title-input">Nom<span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" formControlName="nom"
-                            placeholder="Entrer le nom">
-                    </div>
-                    <!-- <div class="mb-3">
-                        <label class="form-label" for="product-title-input">Adresse</label>
-                        <input type="text" class="form-control" formControlName="adresse"
-                            placeholder="Entrer l'adresse">
-                    </div> -->
-                    <div class="mb-3">
-                        <label class="form-label" for="product-title-input">Fonction<span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" formControlName="fonction"
-                            placeholder="Entrer la fonction">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="product-title-input">Email</label>
-                        <input type="text" class="form-control" formControlName="email"
-                            placeholder="Entrer l'adresse email">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="product-title-input">Téléphone fixe</label>
-                        <input type="text" class="form-control" formControlName="telephone_fixe"
-                            placeholder="Entrer le numéro de téléphone fixe">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="product-title-input">Téléphone mobile<span style="color: red;">*</span></label>
-                        <input type="text" placeholder="Entrer le numéro de téléphone mobile" class="form-control" formControlName="telephone_mobile">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" for="product-title-input">Téléphone domicile<span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" placeholder="Entrer le numéro de téléphone domicile" formControlName="telephone_mobile">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" for="product-title-input">Commentaire</label>
-                        <textarea class="form-control"  rows="2"></textarea>
-                    </div>
-                </div>
-            </div>
-            <!-- end card -->
-  
-   
-            <div class="text-end mb-3">
-                <button (click)="saveContact()" [disabled]="!createContactForm.valid" type="submit" class="btn btn-success w-sm">Enregistrer</button>
-            </div>
-        
-  
-  
-    </div>
+    
     <!-- end col -->
   
     <div class="col-lg-4">
@@ -134,5 +72,63 @@
         <!-- end card body -->
     </div>
 
+    <div class="col-lg-8">
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">NOUVEAU CONTACT</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label" for="product-title-input">Prénom<span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" formControlName="prenom"
+                        placeholder="Entrer le prénom">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="product-title-input">Nom<span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" formControlName="nom"
+                        placeholder="Entrer le nom">
+                </div>
+ 
+                <div class="mb-3">
+                    <label class="form-label" for="product-title-input">Fonction<span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" formControlName="fonction"
+                        placeholder="Entrer la fonction">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="product-title-input">Email</label>
+                    <input type="text" class="form-control" formControlName="email"
+                        placeholder="Entrer l'adresse email">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="product-title-input">Téléphone fixe</label>
+                    <input type="text" class="form-control" formControlName="telephone_fixe"
+                        placeholder="Entrer le numéro de téléphone fixe">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="product-title-input">Téléphone mobile</label>
+                    <input type="text" placeholder="Entrer le numéro de téléphone mobile" class="form-control" formControlName="telephone_mobile">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="product-title-input">Téléphone domicile</label>
+                    <input type="text" class="form-control" placeholder="Entrer le numéro de téléphone domicile" formControlName="telephone_domicile">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="product-title-input">Commentaire</label>
+                    <textarea class="form-control"  rows="2" formControlName="commentaire"></textarea>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="text-end mb-3">
+                    <button (click)="saveContact()" [disabled]="!createContactForm.valid" type="submit" class="btn btn-success w-sm">Enregistrer</button>
+            </div>
+            
+            </div>
+        </div>
+        <!-- end card -->
+
+</div>
   </div>
 </form>

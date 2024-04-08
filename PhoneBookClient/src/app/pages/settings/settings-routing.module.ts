@@ -10,7 +10,7 @@ import { InstitutComponent } from './components/institut/institut.component';
 
 const routes: Routes = [
   {
-    path: "general",
+    path: "",
     component: GeneralComponent
   },
   {
@@ -20,10 +20,6 @@ const routes: Routes = [
   {
     path: "tree",
     component: TreeComponent
-  },
-  {
-    path: "**",
-    component: GeneralComponent
   },
   {
     path: "pays",
@@ -41,6 +37,10 @@ const routes: Routes = [
     path: "institut",
     component: InstitutComponent
   },
+  {
+    path: "**",
+    component: GeneralComponent
+  }
 ];
 
 @NgModule({

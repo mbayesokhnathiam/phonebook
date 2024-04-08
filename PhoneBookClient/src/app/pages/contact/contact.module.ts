@@ -12,6 +12,7 @@ import { TreeNodeTypeComponent } from "./components/tree-node-type/tree-node-typ
 import { TreeNodeInstitutComponent } from './components/tree-node-institut/tree-node-institut.component';
 import { CreerContactComponent } from './components/creer-contact/creer-contact.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { DetailComponent } from './components/detail/detail.component';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
         TreeNodeVilleComponent,
         TreeNodeTypeComponent,
         TreeNodeInstitutComponent,
-        CreerContactComponent
+        CreerContactComponent,
+        DetailComponent
     ],
     imports: [
         CommonModule,
