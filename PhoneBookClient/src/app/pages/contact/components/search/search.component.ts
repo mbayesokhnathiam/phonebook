@@ -165,6 +165,8 @@ export class SearchComponent implements OnInit {
     this.contactService.filterTreeByCity(id).subscribe((res) => {
       this.response = res;
       this.contacts = [];
+      this.types = [];
+      this.instituts = [];
     });
   }
 
@@ -172,6 +174,9 @@ export class SearchComponent implements OnInit {
     this.contactService.filterTreeByCountrie(id).subscribe((res) => {
       this.response = res;
       this.contacts = [];
+      this.villes = [];
+      this.types = [];
+      this.instituts = [];
     });
   }
 
@@ -179,6 +184,7 @@ export class SearchComponent implements OnInit {
     this.contactService.filterTreeByType(id).subscribe((res) => {
       this.response = res;
       this.contacts = [];
+      this.instituts = [];
 
     });
   }
