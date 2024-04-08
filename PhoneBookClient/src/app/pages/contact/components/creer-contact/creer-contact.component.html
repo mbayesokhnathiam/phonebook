@@ -15,7 +15,7 @@
                             <div class="mb-3">
                                 <label for="choices-publish-status-input" class="form-label">Pays<span
                                         style="color: red;">*</span></label>
-                                <select class="form-control" formArrayName="pays" (change)="onCountrieSelectChange($event)">
+                                <select class="form-control" formControlName="pays" (change)="onCountrieSelectChange($event)">
                                     <option value="" disabled selected>Selectionner le pays</option>
                                     @for (country of pays; track country.id){
                                     <option [value]="country.id">
@@ -27,7 +27,7 @@
                             <div class="mb-3">
                                 <label for="choices-publish-status-input" class="form-label">Ville<span
                                         style="color: red;">*</span></label>
-                                <select formArrayName="ville" class="form-control" data-choices data-choices-search-false
+                                <select formControlName="ville" class="form-control" data-choices data-choices-search-false
                                     (change)="onVilleSelectChange($event)">
                                     <option value="" selected disabled>Selectionner la ville</option>
                                     @for (ville of villes; track ville.id){
@@ -40,7 +40,7 @@
                             <div class="mb-3">
                                 <label for="choices-publish-status-input" class="form-label">Type institution<span
                                         style="color: red;">*</span></label>
-                                <select class="form-control" formArrayName="type" (change)="onTypeSelectChange($event)">
+                                <select class="form-control" formControlName="type" (change)="onTypeSelectChange($event)">
                                     <option value="" selected disabled>Selectionner le type</option>
                                     @for (type of types; track type.id){
                                     <option [value]="type.id">
