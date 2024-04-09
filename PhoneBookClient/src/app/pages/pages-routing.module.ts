@@ -3,14 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 // Component pages
 import { DashboardComponent } from "./dashboards/dashboard/dashboard.component";
+import { SearchComponent } from './contact/components/search/search.component';
 
 const routes: Routes = [
     {
         path: "",
-        component: DashboardComponent
-    },
-    {
-      path: '', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule)
+        component: SearchComponent
     }
     
 ];

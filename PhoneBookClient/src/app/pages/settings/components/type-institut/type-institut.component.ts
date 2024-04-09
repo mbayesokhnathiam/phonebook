@@ -39,7 +39,7 @@ export class TypeInstitutComponent implements OnInit{
   filteredVille!: Ville;
 
   ngOnInit(): void {
-    this.paginateTypes(1,1);
+    
     this.formatVille();
     this.initCreateForm();
   }

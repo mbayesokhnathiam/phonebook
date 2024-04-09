@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
@@ -13,6 +13,21 @@ export class FooterComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  isFooterVisible: boolean = false;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const windowHeight = window.innerHeight;
+    const bodyHeight = document.body.clientHeight;
+
+    if (scrollPos + windowHeight >= bodyHeight) {
+      this.isFooterVisible = true;
+    } else {
+      this.isFooterVisible = false;
+    }
   }
 
 }

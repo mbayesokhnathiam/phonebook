@@ -83,13 +83,24 @@ class ContactController extends Controller
     {
         $data = $request->all();
 
-        $saved = Contact::create($data);
+        if($request->id){
+            $updated = Contact::find($request->id)->update($data);
 
-        if($saved){
-            return response()->json([
-                'status' => 201, 'message' => 'Contact créé avec succès!'
-            ]);
+            if($updated){
+                return response()->json([
+                    'status' => 201, 'message' => 'Contact mis à jour avec succès!'
+                ]);
+            }
+        }else{
+            $saved = Contact::create($data);
+
+            if($saved){
+                return response()->json([
+                    'status' => 201, 'message' => 'Contact créé avec succès!'
+                ]);
+            }
         }
+
 
         return response()->json([
             'status' => 400, 'message' => 'Une erreur est survenue, veuillez contacter l\'administrateur!'
@@ -101,7 +112,7 @@ class ContactController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Contact::with('institut.typeInstitut.ville.pays')->find($id);
     }
 
     /**

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TreeNodeComponent } from "../tree-node/tree-node.component";
 import { paginationlist } from 'src/app/core/data/tablelistjs';
 import { ContactService } from '../../services/contact.service';
@@ -20,7 +20,7 @@ import { ModalService } from '../../services/modal.service';
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 
   receivedData!: number;
   currentPage: number = 1;
@@ -52,6 +52,7 @@ export class SearchComponent implements OnInit {
   constructor(private contactService: ContactService, private router: Router,private modalService: ModalService){
 
   }
+  
   ngOnInit(): void {
     this.initSearchForm();
     this.paginationDatas = paginationlist
@@ -68,7 +69,10 @@ export class SearchComponent implements OnInit {
 
     this.contactService.sharedData$.subscribe(data => {
       this.receivedData = data;
-      this.getContactByInstitut(this.receivedData,this.currentPage);
+      if(this.receivedData !== null){
+        this.getContactByInstitut(this.receivedData,this.currentPage);
+      }
+
     });
   }
   term: any;
@@ -104,6 +108,11 @@ export class SearchComponent implements OnInit {
 
   navigateToCreate(){
     this.router.navigate(['/contact/creer']);
+  }
+
+  navigateToEdit(id:any){
+    const hashId = btoa(id);
+    this.router.navigate(['/contact/edit/'+hashId]);
   }
 
   loadPage() {
@@ -242,6 +251,10 @@ export class SearchComponent implements OnInit {
   paginateContact(page: any){
     this.currentPage = page;
     this.getContactByInstitut(this.receivedData, this.currentPage);
+  }
+
+  ngOnDestroy(): void {
+    this.contactService.setSharedData(null);
   }
 
 

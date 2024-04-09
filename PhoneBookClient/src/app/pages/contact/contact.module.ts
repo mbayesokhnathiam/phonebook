@@ -13,6 +13,7 @@ import { TreeNodeInstitutComponent } from './components/tree-node-institut/tree-
 import { CreerContactComponent } from './components/creer-contact/creer-contact.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DetailComponent } from './components/detail/detail.component';
+import { EditContactComponent } from './components/edit-contact/edit-contact.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { DetailComponent } from './components/detail/detail.component';
         TreeNodeTypeComponent,
         TreeNodeInstitutComponent,
         CreerContactComponent,
-        DetailComponent
+        DetailComponent,
+        EditContactComponent
     ],
     imports: [
         CommonModule,

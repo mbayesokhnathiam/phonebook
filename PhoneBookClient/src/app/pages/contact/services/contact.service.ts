@@ -92,4 +92,10 @@ export class ContactService {
     );
   }
   // END TREE
+
+  getContactByid(id: number): Observable<Contact> {
+    return this.http.get<Contact>(
+      `${environment.apiUrl}/contacts/${id}`
+    );
+  }
 }

@@ -37,13 +37,26 @@ class TypeInstitutionController extends Controller
     {
         $data = $request->all();
 
-        $saved = TypeInstitut::create($data);
+        if($request->id){
+            $updated = TypeInstitut::find($request->id)->update($data);
 
-        if($saved){
-            return response()->json([
-                'status' => 201, 'message' => 'Type institution créé avec succès!'
-            ]);
+            if($updated){
+                return response()->json([
+                    'status' => 201, 'message' => 'Type institution mis à jour avec succès!'
+                ]);
+            }
+        }else{
+
+            $saved = TypeInstitut::create($data);
+
+            if($saved){
+                return response()->json([
+                    'status' => 201, 'message' => 'Type institution créé avec succès!'
+                ]);
+            }
         }
+
+
 
         return response()->json([
             'status' => 400, 'message' => 'Une erreur est survenue lors de la création!'

@@ -1,10 +1,12 @@
 <div class="card">
     <div class="card-header">
-        <h5 class="card-title mb-0">FORMULAIRE DE CREATION D'UN CONTACT</h5>
+        <h5 class="card-title mb-0">FORMULAIRE DE MISE A JOUR D'UN CONTACT</h5>
     </div>
     <div class="card-body">
-        <form [formGroup]="createContactForm">
+        <form [formGroup]="updateContactForm">
             <div class="row">
+        
+        
                 <!-- end col -->
         
                 <div class="col-lg-4">
@@ -129,7 +131,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="text-end mb-3">
-                                <button (click)="saveContact()" [disabled]="!createContactForm.valid" type="submit" class="btn btn-success w-sm">Enregistrer</button>
+                                <button (click)="saveContact()" [disabled]="!updateContactForm.valid" type="submit" class="btn btn-success w-sm">Enregistrer</button>
                             </div>
                         </div>
                     </div>

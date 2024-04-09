@@ -1,0 +1,10 @@
+.footer {
+    width: 100%;
+    background-color: #f8f9fa; /* couleur de fond optionnelle */
+    padding: 10px; /* espace optionnel pour un meilleur espacement */
+    display: none; /* masquer initialement le pied de page */
+}
+
+.show-footer {
+    display: none; /* afficher le pied de page lorsque nécessaire */
+}

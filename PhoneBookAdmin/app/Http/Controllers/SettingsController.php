@@ -35,5 +35,19 @@ class SettingsController extends Controller
         return response()->json($formattedData);
     }
 
+    public function formatType()
+    {
+        $types = TypeInstitut::with('ville.pays')->get(); // Récupère toutes les villes avec leurs pays
+
+        $formattedData = $types->map(function ($type) {
+            return [
+                'id' => $type->id,
+                'nom' => $type->nom.' / '.$type->ville->nom.' / '.$type->ville->pays->nom_fr_fr // Supposant que vous voulez le nom du pays en français
+            ];
+        });
+
+        return response()->json($formattedData);
+    }
+
 
 }

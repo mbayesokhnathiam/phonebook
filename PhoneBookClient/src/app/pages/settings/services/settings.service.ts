@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Pays } from '../../contact/models/pays.model';
-import { PageType } from '../models/page-type.model';
+import { PageType, TypeItem } from '../models/page-type.model';
 import { Ville } from '../../contact/models/ville.model';
 
 @Injectable({
@@ -25,6 +25,12 @@ export class SettingsService {
   formaVille(): Observable<Ville[]> {
     return this.http.get<Ville[]>(
       `${environment.apiUrl}/settings/format-ville`
+    );
+  }
+
+  formatType(): Observable<TypeItem[]> {
+    return this.http.get<TypeItem[]>(
+      `${environment.apiUrl}/settings/format-type`
     );
   }
 
