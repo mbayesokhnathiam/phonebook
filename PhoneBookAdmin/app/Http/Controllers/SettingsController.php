@@ -23,7 +23,9 @@ class SettingsController extends Controller
 
     public function formatVille()
     {
-        $villes = Ville::with('pays')->get(); // Récupère toutes les villes avec leurs pays
+        $villes = Ville::with('pays')
+            ->orderBy('nom')
+            ->get(); // Récupère toutes les villes avec leurs pays
 
         $formattedData = $villes->map(function ($ville) {
             return [
@@ -37,7 +39,9 @@ class SettingsController extends Controller
 
     public function formatType()
     {
-        $types = TypeInstitut::with('ville.pays')->get(); // Récupère toutes les villes avec leurs pays
+        $types = TypeInstitut::with('ville.pays')
+            ->orderBy('nom')
+            ->get(); // Récupère toutes les villes avec leurs pays
 
         $formattedData = $types->map(function ($type) {
             return [
@@ -45,6 +49,7 @@ class SettingsController extends Controller
                 'nom' => $type->nom.' / '.$type->ville->nom.' / '.$type->ville->pays->nom_fr_fr // Supposant que vous voulez le nom du pays en français
             ];
         });
+
 
         return response()->json($formattedData);
     }

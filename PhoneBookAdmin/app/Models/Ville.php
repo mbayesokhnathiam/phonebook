@@ -25,4 +25,10 @@ class Ville extends Model
     {
         return $this->belongsTo(Pays::class, 'paysId');
     }
+
+
+    public function setNomAttribute($value)
+    {
+        $this->attributes['nom'] = ucfirst(strtolower($value));
+    }
 }

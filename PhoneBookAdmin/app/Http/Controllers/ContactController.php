@@ -139,5 +139,28 @@ class ContactController extends Controller
         //
     }
 
+    public function formatContact()
+    {
+        $contacts = Contact::with('institut.typeinstitut.ville.pays')
+            ->orderBy('nom')
+            ->get(); // Récupère toutes les villes avec leurs pays
+
+
+        //return $contacts;
+
+        $formattedData = $contacts->map(function ($contact) {
+
+            return [
+                'id' => $contact->id,
+                'nom' => $contact->prenom.' '.$contact->nom.' / '.$contact->fonction.' / '.$contact->institut->nom.' / '.$contact->institut->typeinstitut->nom.' / '.$contact->institut->typeinstitut->ville->nom.' / '.$contact->institut->typeinstitut->ville->pays->nom_fr_fr
+
+            ];
+        });
+
+
+        return response()->json($formattedData);
+
+    }
+
 
 }

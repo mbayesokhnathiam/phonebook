@@ -9,6 +9,7 @@ import { Institut } from '../models/institut.model';
 import { TreeData } from '../components/tree-node/tree-data.model';
 import { Contact } from '../models/contact.model';
 import { ContactPagination } from '../models/page-contact.model';
+import { FormatItem } from '../models/format.model';
 
 @Injectable({
   providedIn: 'root'
@@ -96,6 +97,12 @@ export class ContactService {
   getContactByid(id: number): Observable<Contact> {
     return this.http.get<Contact>(
       `${environment.apiUrl}/contacts/${id}`
+    );
+  }
+
+  formatContact(): Observable<FormatItem[]> {
+    return this.http.get<FormatItem[]>(
+      `${environment.apiUrl}/format/contacts`
     );
   }
 }

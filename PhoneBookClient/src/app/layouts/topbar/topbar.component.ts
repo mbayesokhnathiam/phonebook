@@ -3,8 +3,6 @@ import { DOCUMENT } from '@angular/common';
 import { EventService } from '../../core/services/event.service';
 
 //Logout
-import { environment } from '../../../environments/environment';
-import { AuthenticationService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '../../core/services/token-storage.service';
 
@@ -43,7 +41,7 @@ export class TopbarComponent implements OnInit {
   notifyId: any;
 
   constructor(@Inject(DOCUMENT) private document: any, private eventService: EventService, private modalService: NgbModal,
-    public _cookiesService: CookieService, public translate: TranslateService, private authService: AuthenticationService,
+    public _cookiesService: CookieService, public translate: TranslateService,
     private router: Router, private TokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
@@ -167,7 +165,7 @@ export class TopbarComponent implements OnInit {
    * Logout the user
    */
   logout() {
-    this.authService.logout();
+
     this.router.navigate(['/auth/login']);
   }
 

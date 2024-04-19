@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Ville } from 'src/app/pages/contact/models/ville.model';
 import Swal from 'sweetalert2';
-import { PageType, TypeItem } from '../../models/page-type.model';
+import { PageType, TypeItem, VilleItem, VilleType } from '../../models/parametre.model';
 import { SettingsService } from '../../services/settings.service';
 import { ContactService } from 'src/app/pages/contact/services/contact.service';
 import { Pays } from 'src/app/pages/contact/models/pays.model';
@@ -16,15 +16,16 @@ export class VilleComponent  implements OnInit{
 
   constructor(private settingsService: SettingsService, private contactService: ContactService){}
 
-  typePages!: PageType;
-  selectedVilleId!: number;
-  selectedType!: any;
-  types: TypeItem[] = [];
+  villePages!: VilleType;
+  selectedPaysId: number = 0;
+  selectedPays!: any;
+  villes: VilleItem[] = [];
 
-  createTypeForm!: FormGroup;
+  createVilleForm!: FormGroup;
 
 
   pays: Pays[] = [];
+
 
   ngOnInit(): void {
     this.listPays();
@@ -37,18 +38,25 @@ export class VilleComponent  implements OnInit{
     });
   }
   initCreateForm() {
-    this.createTypeForm = new FormGroup({
+    this.createVilleForm = new FormGroup({
       id: new FormControl(''),
       nom: new FormControl('', [Validators.required]),
-      villeId: new FormControl('', [Validators.required])
+      paysId: new FormControl('', [Validators.required])
 
     });
   }
 
+  afficherVille(pays: any){
+    this.selectedPaysId = pays.value;
+      if(this.selectedPaysId !== 0){
+        this.paginateVilles(1,this.selectedPaysId);
+      }
+  }
+
   creerTypeInstitution(){
     Swal.fire({
-      title: "Confirmation?",
-      text: "Voulez-vous enregistrer ce type d'institution!",
+      title: "Confirmation",
+      text: "Voulez-vous enregistrer cette ville?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#008000",
@@ -57,7 +65,7 @@ export class VilleComponent  implements OnInit{
       confirmButtonText: "OUI"
     }).then((result) => {
       if (result.isConfirmed) {
-        this.settingsService.saveTypeInstitut(this.createTypeForm.value).subscribe((res) => {
+        this.settingsService.saveVille(this.createVilleForm.value).subscribe((res) => {
  
           if(res.status === 201){
             Swal.fire({
@@ -65,8 +73,10 @@ export class VilleComponent  implements OnInit{
               text: res.message,
               icon: "success"
             });
-            this.createTypeForm.reset();
-            this.paginateTypes(1,1);
+            this.createVilleForm.reset();
+            if(this.selectedPaysId !== 0){
+              this.paginateVilles(1,this.selectedPaysId);
+            }
           }else{
             Swal.fire({
               title: "Erreur!",
@@ -81,11 +91,17 @@ export class VilleComponent  implements OnInit{
     
   }
 
-  paginateTypes(page: any, ville:any){
-    this.settingsService.PaginateTypeInstitution(page,ville).subscribe((res) => {
-      this.typePages = res;
-      this.types = this.typePages.data;
+  paginateVilles(page: any, pays:any){
+    this.settingsService.PaginateVille(page,pays).subscribe((res) => {
+      this.villePages = res;
+      this.villes = this.villePages.data;
     });
+  }
+
+  edit(data: any){
+    this.createVilleForm.get('id')?.setValue(data.id);
+    this.createVilleForm.get('nom')?.setValue(data.nom);
+    this.createVilleForm.get('paysId')?.setValue(data.paysId);
   }
 
   

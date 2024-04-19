@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { SettingsService } from '../../services/settings.service';
-import { PageType, TypeItem } from '../../models/page-type.model';
+import { PageType, TypeItem } from '../../models/parametre.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Institut } from 'src/app/pages/contact/models/institut.model';
 import { Ville } from 'src/app/pages/contact/models/ville.model';
@@ -55,8 +55,8 @@ export class TypeInstitutComponent implements OnInit{
 
   creerTypeInstitution(){
     Swal.fire({
-      title: "Confirmation?",
-      text: "Voulez-vous enregistrer ce type d'institution!",
+      title: "Confirmation",
+      text: "Voulez-vous enregistrer ce type d'institution?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#008000",
@@ -75,7 +75,7 @@ export class TypeInstitutComponent implements OnInit{
             });
             this.nomVille = '';
             this.createTypeForm.reset();
-            this.paginateTypes(1,1);
+            this.paginateTypes(1,this.filteredVille.id);
           }else{
             Swal.fire({
               title: "Erreur!",

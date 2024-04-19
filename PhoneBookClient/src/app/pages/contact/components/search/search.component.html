@@ -39,10 +39,10 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-xxl-6 col-sm-6  mb-3">
+                                        <div class="col-xxl-6 col-sm-6  mb-3" *ngIf="paysSelected === true">
                                             <div>
                                                 <select class="form-control" data-choices data-choices-search-false (change)="onVilleSelectChange($event)">
-                                                    <option value="" selected disabled>Selectionner la ville</option>
+                                                    <option value="" selected>Selectionner la ville</option>
                                                     @for (ville of villes; track ville.id){
                                                     <option [value]="ville.id">
                                                         {{ ville.nom }}
@@ -57,7 +57,7 @@
                             </div>
                         </div>
             
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"  *ngIf="villeSelected">
                             <div class="card">
                                 <div class="card-header">
                                     <h5>Quelle institution?</h5>
@@ -65,10 +65,10 @@
             
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-xxl-6 col-sm-6  mb-3">
+                                        <div class="col-xxl-6 col-sm-6  mb-3"  *ngIf="villeSelected">
                                             <div>
                                                 <select class="form-control" (change)="onTypeSelectChange($event)">
-                                                    <option value="" selected disabled>Selectionner le type</option>
+                                                    <option value="" selected>Selectionner le type</option>
                                                     @for (type of types; track type.id){
                                                     <option [value]="type.id">
                                                         {{ type.nom }}
@@ -77,9 +77,9 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-xxl-6 col-sm-6  mb-3" (click)="toggleOptions($event)">
+                                        <div class="col-xxl-6 col-sm-6  mb-3" (click)="toggleOptions($event)"  *ngIf="typeSelected">
                                             <div class="search-box">
-                                                <input type="text" formControlName="institut" [value]="nomInstitut" class="form-control" placeholder="Nom institution" (input)="onInputChange($event.target)">
+                                                <input type="text" formControlName="institut" [value]="nomInstitut" class="form-control" placeholder="Nom de l'institution" (input)="onInputChange($event.target)">
                                                 <i class="ri-search-line search-icon"></i>
                                                 <ul class="autocomplete-list" *ngIf="showOptions">
                                                     <li *ngFor="let i of filteredInstituts" (click)="selectOption(i)">{{ i.nom }}</li>
@@ -108,34 +108,40 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title mb-0">REGROUPER PAR</h4>
             </div><!-- end card header -->
     
             <div class="card-body">
-                @if(response && response.type === 'pays'){
-                    <app-tree-node [level1Data]="response.data"></app-tree-node>
-                }
+                <div class="row">
+                    <div class="col-md-12">
+                        @if(response && response.type === 'pays'){
+                            <app-tree-node [level1Data]="response.data"></app-tree-node>
+                        }
+        
+                        @if(response && response.type === 'ville'){
+                            <app-tree-node-ville [level1Data]="response.data"></app-tree-node-ville>
+                        }
+        
+                        @if(response && response.type === 'type' && !filteredInstitut){
+                            <app-tree-node-type [level1Data]="response.data"></app-tree-node-type>
+                        }
+        
+                        @if(filteredInstitut && institutionSelected === true){
+                            <app-tree-node-institut [institut]="filteredInstitut"></app-tree-node-institut>
+                        }
 
-                @if(response && response.type === 'ville'){
-                    <app-tree-node-ville [level1Data]="response.data"></app-tree-node-ville>
-                }
-
-                @if(response && response.type === 'type' && !filteredInstitut){
-                    <app-tree-node-type [level1Data]="response.data"></app-tree-node-type>
-                }
-
-                @if(filteredInstitut){
-                    <app-tree-node-institut [institut]="filteredInstitut"></app-tree-node-institut>
-                }
+                        
+                    </div>
+                </div>
                 
             </div>
         </div>
     </div>
     
-    <div class="col-md-8">
+    <div class="col-md-7">
        <div class="card">
             <div class="card-header">
                 <h4 class="card-title mb-0">LISTE DES CONTACTS</h4>
@@ -160,9 +166,7 @@
                             <tr *ngFor="let data of contacts">
                             <td>
                                 <div class="d-flex gap-2 align-items-center">
-                                    <div class="flex-shrink-0">
-                                    <img src="assets/images/contacts/contact.png" alt="" class="avatar-xs rounded-circle" />
-                                    </div>
+                                
                                     <div class="flex-grow-1">
                                     {{data.prenom}} {{data.nom}}
                                     </div>
@@ -201,14 +205,14 @@
                           <ul class="pagination pagination-separated pagination-sm justify-content-center justify-content-sm-start mb-0">
               
                             <li class="page-item" *ngFor="let page of contactPages.links">
-                              @if(page.label === 'pagination.previous'  && contactPages.current_page > 1){
+                              @if(page.label === '&laquo; Previous'  && contactPages.current_page > 1){
                                 <a (click)="paginateContact(contactPages.current_page - 1)" class="page-link" [class.active]="page.active">←</a>
                               }
               
-                              @if(page.label === 'pagination.next'  && contactPages.current_page !== contactPages.last_page){
+                              @if(page.label === 'Next &raquo;'  && contactPages.current_page !== contactPages.last_page){
                                 <a (click)="paginateContact(contactPages.current_page + 1)" class="page-link" [class.active]="page.active">→</a>
                               }
-                              @if(page.url !== null && (page.label !=='pagination.previous' && page.label !=='pagination.next')){
+                              @if(page.url !== null && (page.label !=='&laquo; Previous' && page.label !=='Next &raquo;')){
                                 <a (click)="paginateContact(page.label)" class="page-link" [class.active]="page.active">{{ page.label }}</a>
                               }
                             </li>

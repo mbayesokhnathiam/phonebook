@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TreeNodeComponent } from "../tree-node/tree-node.component";
-import { paginationlist } from 'src/app/core/data/tablelistjs';
+
 import { ContactService } from '../../services/contact.service';
 import { Pays } from '../../models/pays.model';
 import { Ville } from '../../models/ville.model';
@@ -47,7 +46,19 @@ export class SearchComponent implements OnInit, OnDestroy {
   filteredInstituts: Institut[] = [];
   showOptions: boolean = false;
   selectedInstitut!: Institut;
-  filteredInstitut!: Institut;
+  filteredInstitut: Institut | undefined;
+
+  // list visibility
+  paysSelected = false;
+  villeSelected = false;
+  typeSelected = false;
+  institutionSelected = false;
+
+  // Selected Elements
+
+  selectedIdPays = 0;
+  selectedIdVille = 0;
+  selectedIdType = 0;
 
   constructor(private contactService: ContactService, private router: Router,private modalService: ModalService){
 
@@ -55,16 +66,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     this.initSearchForm();
-    this.paginationDatas = paginationlist
-    this.totalRecords = this.paginationDatas.length
-
-    this.startIndex = (this.page - 1) * this.pageSize + 1;
-    this.endIndex = (this.page - 1) * this.pageSize + this.pageSize;
-    if (this.endIndex > this.totalRecords) {
-      this.endIndex = this.totalRecords;
-    }
-    this.paginationDatas = paginationlist.slice(this.startIndex - 1, this.endIndex);
-
+    
     this.listPays();
 
     this.contactService.sharedData$.subscribe(data => {
@@ -115,21 +117,13 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.router.navigate(['/contact/edit/'+hashId]);
   }
 
-  loadPage() {
-    this.startIndex = (this.page - 1) * this.pageSize + 1;
-    this.endIndex = (this.page - 1) * this.pageSize + this.pageSize;
-    if (this.endIndex > this.totalRecords) {
-      this.endIndex = this.totalRecords;
-    }
-    this.paginationDatas = paginationlist.slice(this.startIndex - 1, this.endIndex);
-  }
-
   onInputChange(target: any) {
-
     this.filteredInstituts = this.instituts.filter(i =>
       i.nom.toLowerCase().includes(target.value.toLowerCase())
+      
     );
     this.showOptions = true;
+
   }
 
   toggleOptions(event: MouseEvent) {
@@ -140,6 +134,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   selectOption(cab: Institut) {
     // Vous pouvez faire ce que vous voulez avec l'option sélectionnée ici
     this.selectedInstitut = cab;
+    this.institutionSelected = true;
     if (this.searchContactForm) {
       const institutControl = this.searchContactForm.get('institut');
       if (institutControl) {
@@ -175,7 +170,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.response = res;
       this.contacts = [];
       this.types = [];
-      this.instituts = [];
+
     });
   }
 
@@ -185,7 +180,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.contacts = [];
       this.villes = [];
       this.types = [];
-      this.instituts = [];
+
     });
   }
 
@@ -193,7 +188,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.contactService.filterTreeByType(id).subscribe((res) => {
       this.response = res;
       this.contacts = [];
-      this.instituts = [];
+
 
     });
   }
@@ -215,18 +210,21 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   listVillesParPays(id: number){
+    this.selectedIdPays = id;
     this.contactService.getCityByCountrie(id).subscribe((res) => {
       this.villes = res;
     });
   }
 
   listTypesParVille(id: number){
+    this.selectedIdVille = id;
     this.contactService.getTypeByCity(id).subscribe((res) => {
       this.types = res;
     });
   }
 
   listInstitutParType(id: number){
+    this.selectedIdType = id;
     this.contactService.getInstitutByType(id).subscribe((res) => {
       this.instituts = res;
     });
@@ -234,18 +232,86 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 
   onCountrieSelectChange(event: any){
-    this.getTreeByCountrie(event.target.value);
-    this.listVillesParPays(event.target.value); 
+    this.searchContactForm.get('institut')?.setValue('');
+    this.contacts = [];
+    if(event.target.value !== ''){
+      this.getTreeByCountrie(event.target.value);
+      this.listVillesParPays(event.target.value); 
+      this.paysSelected = true;
+      this.villeSelected = false;
+      this.typeSelected = false;
+      this.institutionSelected = false;
+      this.instituts = [];
+
+
+      this.filteredInstitut = undefined;
+      this.receivedData = 0;
+    }else{
+      this.paysSelected = false;
+      this.villeSelected = false;
+      this.typeSelected = false;
+      this.response.data = [];
+      this.institutionSelected = false;
+      this.instituts = [];
+
+      this.filteredInstitut = undefined;
+      this.receivedData = 0;
+
+    }
   }
 
   onVilleSelectChange(event: any){
+    this.searchContactForm.get('institut')?.setValue('');
+    if(event.target.value !== ''){
     this.getTreeByCity(event.target.value);
-    this.listTypesParVille(event.target.value) 
+    this.listTypesParVille(event.target.value);
+    this.villeSelected = true;
+    this.typeSelected = false;
+    this.institutionSelected = false;
+    this.instituts = [];
+
+    this.filteredInstitut = undefined;
+    this.receivedData = 0;
+    // nettoyer les tree
+
+    }else{
+      this.villeSelected = false;
+      this.typeSelected = false;
+
+      this.filteredInstitut = undefined;
+      this.receivedData = 0;
+
+      // nettoyer les tree
+      this.filteredInstitut = undefined;
+      this.getTreeByCountrie(this.selectedIdPays);
+      this.listVillesParPays(this.selectedIdPays);
+      this.institutionSelected = false;
+      this.instituts = []; 
+      
+    } 
   }
 
   onTypeSelectChange(event: any){
-    this.listInstitutParType(event.target.value) 
-    this.getTreeByType(event.target.value);
+    this.searchContactForm.get('institut')?.setValue('');
+    this.instituts = [];
+    this.filteredInstituts = [];
+
+    if(event.target.value !== ''){
+      this.listInstitutParType(event.target.value) 
+      this.getTreeByType(event.target.value);
+      this.typeSelected = true;
+      this.institutionSelected = false;
+
+      this.filteredInstitut = undefined;
+      this.receivedData = 0;
+    }else{
+      this.typeSelected = false;
+      this.getTreeByCity(this.selectedIdVille);
+      this.listTypesParVille(this.selectedIdVille);
+      this.institutionSelected = false;
+      this.filteredInstitut = undefined;
+      this.receivedData = 0;
+    }
   }
 
   paginateContact(page: any){

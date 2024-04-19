@@ -40,7 +40,7 @@ class DataController extends Controller
 
     public function search($id){
 
-        $pays = Pays::with('villes.typeInstituts.instituts')->find($id);
+        $pays = Pays::with('villes.typeinstituts.instituts')->find($id);
         //$ville = Ville::with('typeInstituts.instituts')->find($villeId);
         //$typeInstitut = TypeInstitut::with('villes.instituts')->find($typeInstitutId);
         //$institut = Institut::with('contacts')->find($institutId);

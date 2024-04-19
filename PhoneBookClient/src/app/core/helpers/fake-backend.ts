@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
-import { application, folderData, recentData, sellerDetals } from '../data';
+
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -119,131 +119,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 }
             }
 
-            // get seller
-            if (request.url.endsWith('/app/seller') && request.method === 'GET') {
-                if (sellerDetals) {
-                    return of(new HttpResponse({ status: 200, body: sellerDetals }));
-                } else {
-                    return throwError({ status: 401, error: { message: 'No Data Found' } });
-                }
-            }
-
             
 
-            // get folder
-            if (request.url.endsWith('/app/folder') && request.method === 'GET') {
-                if (folderData) {
-                    return of(new HttpResponse({ status: 200, body: folderData }));
-                } else {
-                    return throwError({ status: 401, error: { message: 'No Data Found' } });
-                }
-            }
-
-            if (request.url.endsWith('/app/folder') && request.method === 'POST') {
-                const newUser = request.body;
-                if (folderData) {
-                    return of(new HttpResponse({ status: 200, body: newUser }));
-                } else {
-                    return throwError({ status: 401, error: { message: 'No Data Found' } });
-                }
-            }
-
-            // Update listingGrid
-            if (request.url.endsWith('/app/folder') && request.method === 'PUT') {
-                const updatedUser = request.body;
-                if (folderData) {
-                    return of(new HttpResponse({ status: 200, body: updatedUser }));
-                } else {
-                    return throwError({ status: 401, error: { message: 'No Data Found' } });
-                }
-            }
-
-            // DELETE listingGrid
-            if (request.url.endsWith('/app/folder') && request.method === 'DELETE') {
-                const updatedUser = request.body;
-                if (folderData) {
-                    return of(new HttpResponse({ status: 200, body: updatedUser })); // respond 200 OK
-                } else {
-                    return throwError({ status: 401, error: { message: 'Unauthorised' } });
-                }
-            }
-
-            // get file
-            if (request.url.endsWith('/app/file') && request.method === 'GET') {
-                if (recentData) {
-                    return of(new HttpResponse({ status: 200, body: recentData }));
-                } else {
-                    return throwError({ status: 401, error: { message: 'No Data Found' } });
-                }
-            }
-
-            if (request.url.endsWith('/app/file') && request.method === 'POST') {
-                const newUser = request.body;
-                if (recentData) {
-                    return of(new HttpResponse({ status: 200, body: newUser }));
-                } else {
-                    return throwError({ status: 401, error: { message: 'No Data Found' } });
-                }
-            }
-
-            // Update listingGrid
-            if (request.url.endsWith('/app/file') && request.method === 'PUT') {
-                const updatedUser = request.body;
-                if (recentData) {
-                    return of(new HttpResponse({ status: 200, body: updatedUser }));
-                } else {
-                    return throwError({ status: 401, error: { message: 'No Data Found' } });
-                }
-            }
-
-            // DELETE listingGrid
-            if (request.url.endsWith('/app/file') && request.method === 'DELETE') {
-                const updatedUser = request.body;
-                if (recentData) {
-                    return of(new HttpResponse({ status: 200, body: updatedUser })); // respond 200 OK
-                } else {
-                    return throwError({ status: 401, error: { message: 'Unauthorised' } });
-                }
-            }
-
-            // get application
-            if (request.url.endsWith('/app/application') && request.method === 'GET') {
-                if (application) {
-                    return of(new HttpResponse({ status: 200, body: application }));
-                } else {
-                    return throwError({ status: 401, error: { message: 'No Data Found' } });
-                }
-            }
-
-            if (request.url.endsWith('/app/application') && request.method === 'POST') {
-                const newUser = request.body;
-                if (application) {
-                    return of(new HttpResponse({ status: 200, body: newUser }));
-                } else {
-                    return throwError({ status: 401, error: { message: 'No Data Found' } });
-                }
-            }
-
-            // Update Application
-            if (request.url.endsWith('/app/application') && request.method === 'PUT') {
-                const updatedUser = request.body;
-                if (application) {
-                    return of(new HttpResponse({ status: 200, body: updatedUser }));
-                } else {
-                    return throwError({ status: 401, error: { message: 'No Data Found' } });
-                }
-            }
-
-            // DELETE Application
-            if (request.url.endsWith('/app/application') && request.method === 'DELETE') {
-                const updatedUser = request.body;
-                if (application) {
-                    return of(new HttpResponse({ status: 200, body: updatedUser })); // respond 200 OK
-                } else {
-                    return throwError({ status: 401, error: { message: 'Unauthorised' } });
-                }
-            }
-
+            
            
 
             // pass through any requests not handled above

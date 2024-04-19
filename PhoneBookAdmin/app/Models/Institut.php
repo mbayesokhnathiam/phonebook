@@ -19,7 +19,7 @@ class Institut extends Model
         'typeInstitutId'
     ];
 
-    public function typeInstitut(): BelongsTo
+    public function typeinstitut(): BelongsTo
     {
         return $this->belongsTo(TypeInstitut::class, 'typeInstitutId');
     }
@@ -27,5 +27,10 @@ class Institut extends Model
     public function contacts(): HasMany
     {
         return $this->hasMany(Contact::class, 'institutId');
+    }
+
+    public function setNomAttribute($value)
+    {
+        $this->attributes['nom'] = ucfirst(strtolower($value));
     }
 }

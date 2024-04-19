@@ -14,6 +14,7 @@ import { CreerContactComponent } from './components/creer-contact/creer-contact.
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DetailComponent } from './components/detail/detail.component';
 import { EditContactComponent } from './components/edit-contact/edit-contact.component';
+import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { EditContactComponent } from './components/edit-contact/edit-contact.com
         TreeNodeInstitutComponent,
         CreerContactComponent,
         DetailComponent,
-        EditContactComponent
+        EditContactComponent,
+        AdvancedSearchComponent
     ],
     imports: [
         CommonModule,

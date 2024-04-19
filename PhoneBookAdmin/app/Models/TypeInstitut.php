@@ -25,4 +25,9 @@ class TypeInstitut extends Model
     {
         return $this->hasMany(Institut::class, 'typeInstitutId');
     }
+
+    public function setNomAttribute($value)
+    {
+        $this->attributes['nom'] = ucfirst(strtolower($value));
+    }
 }
