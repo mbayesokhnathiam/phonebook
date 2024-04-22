@@ -12,21 +12,22 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
 
-  private readonly TOKEN_COOKIE_NAME = 'token';
+  private readonly TOKEN_COOKIE_NAME = 'ctctoken';
 
   constructor(private http: HttpClient, private cookieService: CookieService, private jwtHelper: JwtHelperService) { }
 
   // token management
   // Méthode pour stocker le token dans un cookie sécurisé
   public setToken(token: string): void {
-    const expirationDate = new Date(); // Créez une nouvelle date d'expiration
-    expirationDate.setFullYear(expirationDate.getFullYear() + 1); // Définissez la date d'expiration sur un an dans le futur (par exemple)
-    this.cookieService.set(this.TOKEN_COOKIE_NAME, token, expirationDate, '/', '', true, 'Strict');
+    // const expirationDate = new Date(); // Créez une nouvelle date d'expiration
+    // expirationDate.setFullYear(expirationDate.getFullYear() + 1); // Définissez la date d'expiration sur un an dans le futur (par exemple)
+    // this.cookieService.set(this.TOKEN_COOKIE_NAME, token, expirationDate, '/', '', true, 'Strict');
+    localStorage.setItem(this.TOKEN_COOKIE_NAME,token);
   }
 
   // Méthode pour récupérer le token depuis le cookie
   public getToken(): string | undefined {
-    const token = this.cookieService.get(this.TOKEN_COOKIE_NAME);
+    const token = localStorage.getItem(this.TOKEN_COOKIE_NAME);
 
     if (token) {
         return token;
@@ -50,7 +51,7 @@ public isTokenValid(token: string): boolean {
 
   // Méthode pour supprimer le token du cookie
   public deleteToken(): void {
-    this.cookieService.delete(this.TOKEN_COOKIE_NAME);
+    localStorage.removeItem(this.TOKEN_COOKIE_NAME);
   }
 
   // Exemple d'une méthode pour effectuer une requête HTTP avec le token dans les en-têtes d'autorisation
