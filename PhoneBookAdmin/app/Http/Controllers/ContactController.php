@@ -162,7 +162,7 @@ class ContactController extends Controller
 
     }
 
-    public function serchucContant(Request $request)
+    public function searchContant(Request $request)
     {
         $pays = $request->input('pays');
         $ville = $request->input('ville');
