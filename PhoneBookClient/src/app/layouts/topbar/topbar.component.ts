@@ -13,6 +13,7 @@ import { allNotification, messages } from './data'
 import { CartModel } from './topbar.model';
 import { cartData } from './data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/account/services/auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -42,10 +43,11 @@ export class TopbarComponent implements OnInit {
 
   constructor(@Inject(DOCUMENT) private document: any, private eventService: EventService, private modalService: NgbModal,
     public _cookiesService: CookieService, public translate: TranslateService,
-    private router: Router, private TokenStorageService: TokenStorageService) { }
+    private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.userData = this.TokenStorageService.getUser();
+    this.userData = this.authService.getDataWithToken();
+
     this.element = document.documentElement;
 
     // Cookies wise Language set
@@ -166,7 +168,13 @@ export class TopbarComponent implements OnInit {
    */
   logout() {
 
-    this.router.navigate(['/auth/login']);
+    this.authService.logout().subscribe(res => {
+      if(res.status === 'success'){
+        this.authService.deleteToken();
+        this.router.navigate(['/auth/signin']);
+      }
+    });
+    
   }
 
   windowScroll() {
@@ -269,7 +277,7 @@ export class TopbarComponent implements OnInit {
           checkedVal.push(result);
         }
       }
-      console.log(checkedVal)
+
       this.checkedValGet = checkedVal;
     }
     checkedVal.length > 0 ? (document.getElementById("notification-actions") as HTMLElement).style.display = 'block' : (document.getElementById("notification-actions") as HTMLElement).style.display = 'none';

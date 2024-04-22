@@ -7,6 +7,7 @@ import { PaysComponent } from './components/pays/pays.component';
 import { InstitutComponent } from './components/institut/institut.component';
 import { VilleComponent } from './components/ville/ville.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ImportContactsComponent } from './components/import-contacts/import-contacts.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     TypeInstitutComponent,
     PaysComponent,
     InstitutComponent,
-    VilleComponent
+    VilleComponent,
+    ImportContactsComponent
   ],
   imports: [
     CommonModule,

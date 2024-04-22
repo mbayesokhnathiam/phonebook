@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import Swal from 'sweetalert2';
 
 // Login Auth
-import { AuthenticationService } from '../../core/services/auth.service';
-
-import { ToastService } from './toast-service';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,35 +17,25 @@ import { ToastService } from './toast-service';
 export class LoginComponent implements OnInit {
 
   // Login Form
-  loginForm!: UntypedFormGroup;
+  loginForm!: FormGroup;
   submitted = false;
   fieldTextType!: boolean;
-  error = '';
+
   returnUrl!: string;
   // set the current year
   year: number = new Date().getFullYear();
 
-  constructor(private formBuilder: UntypedFormBuilder, private authenticationService: AuthenticationService, private router: Router,
-   private route: ActivatedRoute, public toastService: ToastService) {
-    // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
-      this.router.navigate(['/']);
-    }
+  initCreateForm() {
+    this.loginForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+    });
   }
 
+  constructor(private authService: AuthService, private router: Router) {}
+
   ngOnInit(): void {
-    if (sessionStorage.getItem('currentUser')) {
-      this.router.navigate(['/']);
-    }
-    /**
-     * Form Validatyion
-     */
-    this.loginForm = this.formBuilder.group({
-      email: ['admin@themesbrand.com', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
-    });
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.initCreateForm();
   }
 
   // convenience getter for easy access to form fields
@@ -57,39 +45,44 @@ export class LoginComponent implements OnInit {
    * Form submit
    */
   onSubmit() {
-    this.submitted = true;
-    // Login Api
-    this.authenticationService.login(this.f['email'].value, this.f['password'].value).subscribe((data: any) => {
-      if (data.status == 'success') {
-        sessionStorage.setItem('toast', 'true');
-        sessionStorage.setItem('currentUser', JSON.stringify(data.data));
-        sessionStorage.setItem('token', data.token);
-        this.router.navigate(['/']);
+    this.authService.login(this.loginForm.value).subscribe((res) => {
+
+      if(res.status === 'success'){
+        this.authService.setToken(res.authorisation.token);
+        this.router.navigate(['']);
+        return;
+      }else{
+        Swal.fire({
+          title: "Erreur!",
+          text: 'Adresse e-mail et/ou mot de passe invalide(s) !',
+          icon: "error"
+        });
+        return;
+      }
+
+      
+
+    },
+    (error) => {
+
+      // Gestion des erreurs HTTP
+      if (error === 'Unauthorized') {
+        // Erreur d'authentification (non autorisé)
+        this.loginForm.reset();
+        Swal.fire({
+          title: "Erreur!",
+          text: "Vos identifiants sont incorrects. Veuillez réessayer.",
+          icon: "error"
+        });
       } else {
-        this.toastService.show(data.data, { classname: 'bg-danger text-white', delay: 15000 });
+        // Autres erreurs HTTP
+        Swal.fire({
+          title: "Erreur!",
+          text: "Une erreur s'est produite. Veuillez réessayer plus tard.",
+          icon: "error"
+        });
       }
     });
-
-    // stop here if form is invalid
-    // if (this.loginForm.invalid) {
-    //   return;
-    // } else {
-    //   if (environment.defaultauth === 'firebase') {
-    //     this.authenticationService.login(this.f['email'].value, this.f['password'].value).then((res: any) => {
-    //       this.router.navigate(['/']);
-    //     })
-    //       .catch(error => {
-    //         this.error = error ? error : '';
-    //       });
-    //   } else {
-    //     this.authFackservice.login(this.f['email'].value, this.f['password'].value).pipe(first()).subscribe(data => {
-    //           this.router.navigate(['/']);
-    //         },
-    //         error => {
-    //           this.error = error ? error : '';
-    //         });
-    //   }
-    // }
   }
 
   /**

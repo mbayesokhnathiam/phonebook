@@ -7,19 +7,16 @@ import { PaysComponent } from './components/pays/pays.component';
 import { VilleComponent } from './components/ville/ville.component';
 import { TypeInstitutComponent } from './components/type-institut/type-institut.component';
 import { InstitutComponent } from './components/institut/institut.component';
+import { ImportContactsComponent } from './components/import-contacts/import-contacts.component';
 
 const routes: Routes = [
   {
     path: "",
-    component: GeneralComponent
+    component: PaysComponent
   },
   {
-    path: "role",
-    component: RoleComponent
-  },
-  {
-    path: "tree",
-    component: TreeComponent
+    path: "contact/import",
+    component: ImportContactsComponent
   },
   {
     path: "pays",
@@ -39,7 +36,7 @@ const routes: Routes = [
   },
   {
     path: "**",
-    component: GeneralComponent
+    component: PaysComponent
   }
 ];
 

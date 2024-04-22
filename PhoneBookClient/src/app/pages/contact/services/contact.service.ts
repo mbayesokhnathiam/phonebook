@@ -92,6 +92,12 @@ export class ContactService {
       `${environment.apiUrl}/contacts`,request
     );
   }
+
+  importContact(request: any): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/settings/import-contact`,request
+    );
+  }
   // END TREE
 
   getContactByid(id: number): Observable<Contact> {

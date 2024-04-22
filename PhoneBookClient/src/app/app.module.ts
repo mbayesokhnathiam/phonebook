@@ -23,12 +23,24 @@ import { rootReducer } from './store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import { AuthGuard } from './core/guards/auth.guard';
+import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
 
+
+export function jwtOptionsFactory() {
+  return {
+    tokenGetter: () => {
+      return localStorage.getItem('token');
+    },
+    allowedDomains: ['*'], // Liste des domaines autorisés
+    disallowedRoutes: [] // Liste des routes non autorisées
+  };
+}
 
 @NgModule({
   declarations: [
@@ -57,8 +69,15 @@ export function createTranslateLoader(http: HttpClient): any {
     }),
     EffectsModule.forRoot([
       ]),
+      JwtModule.forRoot({
+        jwtOptionsProvider: {
+          provide: JWT_OPTIONS,
+          useFactory: jwtOptionsFactory
+        }})
   ],
   providers: [
+    AuthGuard,
+    JwtHelperService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },

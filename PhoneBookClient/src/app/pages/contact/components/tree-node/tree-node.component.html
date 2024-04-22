@@ -5,7 +5,7 @@
         <img src="assets/folder-closed.png" *ngIf="!item1.expanded" alt="Folder Closed" class="folder-icon">
         <img src="assets/folder-open.png" *ngIf="item1.expanded" alt="Folder Open" class="folder-icon"> -->
         {{ item1.name }}
-      </span>
+      </span>         
       <ul *ngIf="item1.expanded">
         <li *ngFor="let item2 of item1.children">
           <span (click)="toggleCollapse(item2)" [class.collapsed]="!item2.expanded" class="node text-truncate" style="font-weight: bold; font-size: 14px; text-transform: initial;">

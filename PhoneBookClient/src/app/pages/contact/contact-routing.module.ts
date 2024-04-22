@@ -4,6 +4,7 @@ import { SearchComponent } from './components/search/search.component';
 import { CreerContactComponent } from './components/creer-contact/creer-contact.component';
 import { EditContactComponent } from './components/edit-contact/edit-contact.component';
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
+import { CriteriaSearchComponent } from './components/criteria-search/criteria-search.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
 {
   path: "advanced/search",
   component: AdvancedSearchComponent
+},
+{
+  path: "criteria/search",
+  component: CriteriaSearchComponent
 },
 {
   path: "creer",

@@ -28,6 +28,12 @@ export const MENU: MenuItem[] = [
         label: 'Recherche rapide',
         link: '/contact/advanced/search',
         parentId: 4
+      },
+      {
+        id: 10,
+        label: 'Recherche multi-critères',
+        link: '/contact/criteria/search',
+        parentId: 4
       }
       
     ]
@@ -62,6 +68,12 @@ export const MENU: MenuItem[] = [
         label: 'Institution',
         link: '/settings/institut',
         parentId: 4
+      },
+      {
+        id: 9,
+        label: 'Importer contacts',
+        link: '/settings/contact/import',
+        parentId: 5
       }
 
       

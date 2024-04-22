@@ -7,11 +7,10 @@ import { LayoutComponent } from './layouts/layout.component';
 import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)},
-  // { path: 'auth', loadChildren: () => import('./account/account.module').then(m => m.AccountModule)  },
-  // { path: 'landing', loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule)},
-  { path: 'contact', component: LayoutComponent, loadChildren: () => import('./pages/contact/contact.module').then(m => m.ContactModule)},
-  { path: 'settings', component: LayoutComponent, loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule)},
+  { path: '', component: LayoutComponent, loadChildren: () => import('./pages/contact/contact.module').then(m => m.ContactModule), canActivate: [AuthGuard] },
+  { path: 'auth', loadChildren: () => import('./account/account.module').then(m => m.AccountModule)  },
+  { path: 'contact', component: LayoutComponent, loadChildren: () => import('./pages/contact/contact.module').then(m => m.ContactModule), canActivate: [AuthGuard] },
+  { path: 'settings', component: LayoutComponent, loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule), canActivate: [AuthGuard] },
 ];
 
 @NgModule({

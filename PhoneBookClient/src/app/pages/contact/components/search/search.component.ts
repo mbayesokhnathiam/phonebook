@@ -180,7 +180,6 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.contacts = [];
       this.villes = [];
       this.types = [];
-
     });
   }
 
@@ -242,8 +241,6 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.typeSelected = false;
       this.institutionSelected = false;
       this.instituts = [];
-
-
       this.filteredInstitut = undefined;
       this.receivedData = 0;
     }else{

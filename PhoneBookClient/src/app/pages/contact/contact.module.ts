@@ -15,6 +15,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DetailComponent } from './components/detail/detail.component';
 import { EditContactComponent } from './components/edit-contact/edit-contact.component';
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
+import { CriteriaSearchComponent } from './components/criteria-search/criteria-search.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { AdvancedSearchComponent } from './components/advanced-search/advanced-s
         CreerContactComponent,
         DetailComponent,
         EditContactComponent,
-        AdvancedSearchComponent
+        AdvancedSearchComponent,
+        CriteriaSearchComponent
     ],
     imports: [
         CommonModule,

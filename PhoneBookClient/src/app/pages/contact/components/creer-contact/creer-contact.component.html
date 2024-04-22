@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h5 class="card-title mb-0">FORMULAIRE DE CREATION D'UN CONTACT</h5>
+        <h5 class="card-title mb-0">NOUVEAU CONTACT</h5>
     </div>
     <div class="card-body">
         <form [formGroup]="createContactForm">
@@ -39,10 +39,10 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="choices-publish-status-input" class="form-label">Type de l'institution<span
+                                <label for="choices-publish-status-input" class="form-label">Type d'institution<span
                                         style="color: red;">*</span></label>
                                 <select class="form-control" formControlName="type" (change)="onTypeSelectChange($event)">
-                                    <option value="" selected disabled>Selectionner le type de l'institution</option>
+                                    <option value="" selected disabled>Selectionner le type d'institution</option>
                                     @for (type of types; track type.id){
                                     <option [value]="type.id">
                                         {{ type.nom }}
@@ -51,10 +51,10 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="choices-publish-status-input" class="form-label">L'institution<span
+                                <label for="choices-publish-status-input" class="form-label">Institution<span
                                         style="color: red;">*</span></label>
         
-                                <input type="text" [value]="nomInstitut" class="form-control" placeholder="Rechercher par le nom de l'institution"
+                                <input type="text" [value]="nomInstitut" class="form-control" placeholder="Rechercher par institution"
                                     (input)="onInputChange($event.target)">
                                 <ul class="autocomplete-list" *ngIf="showOptions">
                                     <li *ngFor="let i of filteredInstituts" (click)="selectOption(i)">{{ i.nom }}</li>

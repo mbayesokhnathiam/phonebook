@@ -162,5 +162,15 @@ class ContactController extends Controller
 
     }
 
+    public function serchucContant(Request $request)
+    {
+        $pays = $request->input('pays');
+        $ville = $request->input('ville');
+        $type = $request->input('type');
+        $institut = $request->input('institut');
+        $page = $request->input('page');
+        $size = 10;
+    }
+
 
 }
