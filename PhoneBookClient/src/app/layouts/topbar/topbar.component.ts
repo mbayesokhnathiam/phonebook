@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Inject, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Inject, ViewChild, TemplateRef, Input } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { EventService } from '../../core/services/event.service';
 
@@ -25,6 +25,9 @@ export class TopbarComponent implements OnInit {
   element: any;
   mode: string | undefined;
   @Output() mobileMenuButtonClicked = new EventEmitter();
+  @Input()
+  opened: any;
+  
   allnotifications: any
   flagvalue: any;
   valueset: any;
@@ -46,6 +49,7 @@ export class TopbarComponent implements OnInit {
     private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
+
     this.userData = this.authService.getDataWithToken();
 
     this.element = document.documentElement;
@@ -314,4 +318,6 @@ export class TopbarComponent implements OnInit {
       document.querySelector('.empty-notification-elem')?.classList.remove('d-none')
     }
   }
+
+  
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 // Menu Pachage
@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
+import { LayoutService } from '../services/layout.service';
 
 @Component({
   selector: 'app-horizontal-topbar',
@@ -17,17 +18,24 @@ export class HorizontalTopbarComponent implements OnInit {
 
   menu: any;
   menuItems: MenuItem[] = [];
+  isopened! : boolean;
   @ViewChild('sideMenu') sideMenu!: ElementRef;
   @Output() mobileMenuButtonClicked = new EventEmitter();
-
-  constructor(private router: Router, public translate: TranslateService) {
+  constructor(private router: Router, public translate: TranslateService, private layoutService: LayoutService) {
     translate.setDefaultLang('en');
   }
 
   ngOnInit(): void {
     // Menu Items
     this.menuItems = MENU;
+
+    this.layoutService.sharedData$.subscribe(data => {
+      this.isopened = data;
+      console.log(this.isopened);
+    });
   }
+
+
 
   /***
    * Activate droup down set
@@ -35,6 +43,8 @@ export class HorizontalTopbarComponent implements OnInit {
    ngAfterViewInit() {
     this.initActiveMenu();
   }
+  
+
 
   removeActivation(items: any) {   
     items.forEach((item: any) => {
@@ -82,6 +92,11 @@ export class HorizontalTopbarComponent implements OnInit {
       this.removeActivation(items);
     }
     this.activateParentDropdown(event.target);
+    if(this.isopened === true){
+      this.isopened = !this.isopened;
+      this.layoutService.setSharedData(this.isopened);
+      document.body.classList.toggle('menu');
+    }
   }
 
   initActiveMenu() {
@@ -129,6 +144,9 @@ export class HorizontalTopbarComponent implements OnInit {
     if (isCurrentMenuId) {
       this.activateParentDropdown(isCurrentMenuId);
     }
+
+    document.body.classList.toggle('hide');
+  
   }
 
 
@@ -147,6 +165,14 @@ export class HorizontalTopbarComponent implements OnInit {
     const els = document.getElementsByClassName(className);
     while (els[0]) {
       els[0].classList.remove(className);
+    }
+  }
+
+  handleClickNoSubMenu(){
+    if(this.isopened === true){
+      this.isopened = !this.isopened;
+      this.layoutService.setSharedData(this.isopened);
+      document.body.classList.toggle('menu');
     }
   }
 

@@ -164,8 +164,6 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
     this.contactService.criteriaSearchContacts(request, page).subscribe((res) => {
       this.contactPages = res;
       this.contacts = this.contactPages.data;
-      console.log(this.contacts);
-      
     });
   }
 

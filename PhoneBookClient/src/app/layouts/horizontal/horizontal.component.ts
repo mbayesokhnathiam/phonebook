@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LayoutService } from '../services/layout.service';
 
 @Component({
   selector: 'app-horizontal',
@@ -11,7 +12,8 @@ import { Component, OnInit } from '@angular/core';
  */
 export class HorizontalComponent implements OnInit {
 
-  constructor() { }
+  opened = false;
+  constructor(private layoutService: LayoutService) { }
 
   isCondensed = false;
 
@@ -35,7 +37,19 @@ export class HorizontalComponent implements OnInit {
    */
   onToggleMobileMenu() {
     if (document.documentElement.clientWidth <= 1024) {
+      this.layoutService.sharedData$.subscribe(data => {
+        this.opened = data;
+        this.opened = !this.opened;
+      });
+      
+      this.layoutService.setSharedData(this.opened);
       document.body.classList.toggle('menu');
+      
     }
+    
   }
+
+  
+
+  
 }
