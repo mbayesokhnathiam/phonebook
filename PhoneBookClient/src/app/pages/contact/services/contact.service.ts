@@ -118,4 +118,16 @@ export class ContactService {
       `${environment.apiUrl}/search/contacts?page=${page}`,request
     );
   }
+
+  favorisContacts(page: any): Observable<ContactPagination> {
+    return this.http.get<ContactPagination>(
+      `${environment.apiUrl}/favoris/list?page=${page}`
+    );
+  }
+
+  favoris(id:number): Observable<any> {
+    return this.http.get<any>(
+      `${environment.apiUrl}/favoris/contacts?id=${id}`
+    );
+  }
 }

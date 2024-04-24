@@ -117,7 +117,7 @@
     <div class="col-md-12">
        <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">RÉSULTAT DE LA RECHERCHE</h4>
+                <h4 class="card-title mb-0">{{ submitSearch ? 'RÉSULTAT DE LA RECHERCHE' : 'CONTACTS FAVORIS' }}</h4>
             </div><!-- end card header -->
      
             @if(contacts.length !== 0){
@@ -144,6 +144,9 @@
                                     <h6 class="mb-1"><span class="label-box">Email:</span> <a href="mailto:{{ data.email ?  data.email : ''}}"> {{ data.email ?  data.email : 'N/A'}}</a></h6>
                                     <h6 class="mb-1">{{ data.institut.nom}}</h6>
                                     <h6 class="mb-1">{{data.institut.type_institut.ville.nom}}, {{data.institut.type_institut.ville.pays.nom_fr_fr}}</h6>
+                                    <div class="text-end">
+                                        <button (click)="onClickOnFavoris(data.id)" title="{{!data.favoris ? 'Ajouter aux favoris' : 'Retirer des favoris'}}"  class="btn {{!data.favoris ? 'link-primary' : 'link-danger'}} fw-medium"><i class="ri-user-heart-line align-middle"></i></button>
+                                    </div>
                                 </div>
                             
                             </div>

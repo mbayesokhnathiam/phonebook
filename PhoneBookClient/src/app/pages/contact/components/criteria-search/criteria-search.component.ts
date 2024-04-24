@@ -11,6 +11,7 @@ import { ContactService } from '../../services/contact.service';
 import { ModalService } from '../../services/modal.service';
 import { TreeData } from '../tree-node/tree-data.model';
 import { TreeItem } from '../tree-node/tree.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-criteria-search',
@@ -18,19 +19,6 @@ import { TreeItem } from '../tree-node/tree.model';
   styleUrl: './criteria-search.component.scss'
 })
 export class CriteriaSearchComponent  implements OnInit, OnDestroy {
-
-
-  currentPage: number = 1;
-  pays: Pays[] = [];
-
-  contacts: Contact[] = [];
-  contactPages!: ContactPagination;
-
-  villes: Ville[] = [];
-
-  types: TypeInstitut[] = [];
-
-  nomInstitut: string = '';
 
   // filter institut
   myControl = new FormControl();
@@ -57,6 +45,22 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
   selectedIdVille = 0;
   selectedIdType = 0;
 
+  // Recherche
+
+  currentPage: number = 1;
+  pays: Pays[] = [];
+
+  contacts: Contact[] = [];
+  contactPages!: ContactPagination;
+
+  villes: Ville[] = [];
+
+  types: TypeInstitut[] = [];
+
+  nomInstitut: string = '';
+
+  submitSearch = false;
+
   constructor(private contactService: ContactService, private router: Router,private modalService: ModalService){
 
   }
@@ -64,6 +68,7 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initSearchForm();
     this.listPays();
+    this.favorisContact(this.currentPage);
 
   }
   term: any;
@@ -125,6 +130,8 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
   }
 
   selectOption(cab: Institut) {
+    this.submitSearch = true;
+    this.currentPage = 1;
     // Vous pouvez faire ce que vous voulez avec l'option sélectionnée ici
     this.selectedInstitut = cab;
     this.institutionSelected = true;
@@ -167,6 +174,13 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
     });
   }
 
+  favorisContact(page: any){
+    this.contactService.favorisContacts(page).subscribe((res) => {
+      this.contactPages = res;
+      this.contacts = this.contactPages.data;
+    });
+  }
+
   // END TREE
 
   listPays(){
@@ -198,9 +212,12 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
 
 
   onCountrieSelectChange(event: any){
+    this.submitSearch = true;
+    this.currentPage = 1;
     this.searchContactForm.get('institut')?.setValue('');
     this.contacts = [];
     if(event.target.value !== ''){
+      
       this.listVillesParPays(event.target.value);
       this.searchContact(this.searchContactForm.value, this.currentPage); 
       this.paysSelected = true;
@@ -221,6 +238,8 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
   }
 
   onVilleSelectChange(event: any){
+    this.submitSearch = true;
+    this.currentPage = 1;
     this.searchContactForm.get('institut')?.setValue('');
     if(event.target.value !== ''){
     this.listTypesParVille(event.target.value);
@@ -249,6 +268,8 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
   }
 
   onTypeSelectChange(event: any){
+    this.submitSearch = true;
+    this.currentPage = 1;
     this.searchContactForm.get('institut')?.setValue('');
     this.instituts = [];
     this.filteredInstituts = [];
@@ -270,7 +291,11 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
 
   paginateContact(page: any){
     this.currentPage = page;
-    this.searchContact(this.searchContactForm.value, this.currentPage);
+    if(this.submitSearch){
+      this.searchContact(this.searchContactForm.value, this.currentPage)
+    }else{
+      this.favorisContact(this.currentPage);
+    }
   }
 
   ngOnDestroy(): void {
@@ -279,6 +304,8 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
 
 
   filter(){
+    this.submitSearch = true;
+    this.currentPage = 1;
     this.searchContact(this.searchContactForm.value, this.currentPage);
   }
 
@@ -290,11 +317,32 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
     this.institutionSelected = false;
     this.instituts = [];
     this.filteredInstitut = undefined;
-    this.contactPages.links = [];
+    if(this.contactPages.links){
+      this.contactPages.links = [];
+    }
     this.filteredInstitut = undefined;
     this.contacts = [];
     this.contactPages ??  undefined
+    this.currentPage = 1;
+    this.submitSearch = false;
+    this.favorisContact(this.currentPage);
 
+  }
+
+  onClickOnFavoris(id:number){
+    this.contactService.favoris(id).subscribe((res) => {
+      Swal.fire({
+        title: "Enregistré!",
+        text: res.message,
+        icon: "success"
+      });
+
+      if(this.submitSearch){
+        this.searchContact(this.searchContactForm.value, this.currentPage)
+      }else{
+        this.favorisContact(this.currentPage);
+      }
+    });
   }
 
 

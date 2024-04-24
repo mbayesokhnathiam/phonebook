@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('connected')->default(false);
-            $table->boolean('enabled')->default(true);
+        Schema::table('contacts', function (Blueprint $table) {
+            $table->boolean('favoris')->default(false);
         });
     }
 
@@ -22,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['connected','enabled']);
+        Schema::table('contacts', function (Blueprint $table) {
+            $table->dropColumn(['favoris']);
         });
     }
 };

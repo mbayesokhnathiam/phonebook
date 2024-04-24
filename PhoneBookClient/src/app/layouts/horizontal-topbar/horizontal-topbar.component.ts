@@ -31,7 +31,6 @@ export class HorizontalTopbarComponent implements OnInit {
 
     this.layoutService.sharedData$.subscribe(data => {
       this.isopened = data;
-      console.log(this.isopened);
     });
   }
 

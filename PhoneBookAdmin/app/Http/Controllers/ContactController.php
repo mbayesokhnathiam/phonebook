@@ -6,6 +6,7 @@ use App\Models\Contact;
 use App\Models\Institut;
 use App\Models\Pays;
 use App\Models\TypeInstitut;
+use App\Models\User;
 use App\Models\Ville;
 use App\Utils\CountrieTreeConverter;
 use App\Utils\TypeInstitutTreeConverter;
@@ -221,6 +222,37 @@ class ContactController extends Controller
 
         return $contacts;
 
+    }
+
+    public function favoris(Request $request)
+    {
+        $id = $request->input('id');
+        $contact = Contact::find($id);
+
+        if($contact->favoris){
+            $contact->unsetToFavoris();
+        }else{
+            $contact->setToFavoris();
+        }
+
+        return response()->json([
+            'status' => 201,
+            'message' => $contact->favoris ? 'Ce contact est ajouté aux favoris.' : 'Ce contact est retiré des favoris.',
+        ]);
+    }
+
+    public function favorisList(Request $request)
+    {
+        $page = $request->input('page');
+        $size = 10;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
+        $contacts = Contact::with('institut.typeInstitut.ville.pays')->where('favoris',true)->paginate($size);
+
+        return $contacts;
     }
 
 

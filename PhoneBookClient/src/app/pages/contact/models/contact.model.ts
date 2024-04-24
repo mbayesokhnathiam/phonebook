@@ -67,4 +67,5 @@ export interface Contact {
   created_at: string; // Vous pouvez utiliser un type Date si nécessaire
   updated_at: string; // Vous pouvez utiliser un type Date si nécessaire
   institut: Institut;
+  favoris: boolean;
 }

@@ -22,6 +22,20 @@ class Contact extends Model
         'institutId'
     ];
 
+    public function setToFavoris()
+    {
+        $this->favoris = true;
+        $this->save();
+
+    }
+
+    public function unsetToFavoris()
+    {
+        $this->favoris = false;
+        $this->save();
+
+    }
+
     public function institut(): BelongsTo
     {
         return $this->belongsTo(Institut::class, 'institutId');
