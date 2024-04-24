@@ -4,9 +4,11 @@
             <div class="card-header  border-0">
                 <div class="row align-items-center gy-3">
                   <div class="col-sm">
-                    <h5 class="card-title mb-0">CONTACTS</h5>
+                    <h5 class="card-title mb-0">RECHERCHER</h5>
                   </div>
-                  
+                  <div class="text-end mb-3">
+                    <button (click)="resetSearch()"  type="button" class="btn btn-primary w-sm">Réinitialiser</button>
+                    </div>
                 </div>
               </div><!-- end card header -->
     
@@ -14,17 +16,14 @@
                 <form [formGroup]="searchContactForm">
                     <div class="row g-3">
             
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12  mb-3">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12  mb-3">
                             <div class="card">
-                                <div class="card-header">
-                                    <h5>Où?</h5>
-                                </div><!-- end card header -->
-            
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-xxl-6 col-sm-6  mb-3">
+                                        <div class="col mb-3">
                                             <div>
-                                                <select class="form-control" (change)="onCountrieSelectChange($event)">
+                                                <label class="form-label">Pays</label>
+                                                <select class="form-control" (change)="onCountrieSelectChange($event)" formControlName="pays">
                                                     <option value="">Selectionner le pays</option>
                                                     @for (country of pays; track country.id){
                                                     <option [value]="country.id">
@@ -34,9 +33,10 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-xxl-6 col-sm-6  mb-3" *ngIf="paysSelected === true">
+                                        <div class="col mb-3" *ngIf="paysSelected === true">
                                             <div>
-                                                <select class="form-control" data-choices data-choices-search-false (change)="onVilleSelectChange($event)">
+                                                <label class="form-label">Ville</label>
+                                                <select class="form-control" data-choices data-choices-search-false (change)="onVilleSelectChange($event)" formControlName="ville">
                                                     <option value="" selected>Selectionner la ville</option>
                                                     @for (ville of villes; track ville.id){
                                                     <option [value]="ville.id">
@@ -46,23 +46,10 @@
                                                 </select>
                                             </div>
                                         </div>
-            
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-            
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"  *ngIf="villeSelected">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5>Quelle institution?</h5>
-                                </div><!-- end card header -->
-            
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-xxl-6 col-sm-6  mb-3"  *ngIf="villeSelected">
+                                        <div class="col mb-3"  *ngIf="villeSelected">
                                             <div>
-                                                <select class="form-control" (change)="onTypeSelectChange($event)">
+                                                <label class="form-label">Type d'insitution</label>
+                                                <select class="form-control" (change)="onTypeSelectChange($event)" formControlName="type">
                                                     <option value="" selected>Selectionner le type</option>
                                                     @for (type of types; track type.id){
                                                     <option [value]="type.id">
@@ -72,8 +59,10 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-xxl-6 col-sm-6  mb-3" (click)="toggleOptions($event)"  *ngIf="typeSelected">
+                                        <div class="col mb-3" (click)="toggleOptions($event)"  *ngIf="typeSelected">
+                                            <label class="form-label">Institution</label>
                                             <div class="search-box">
+                                                
                                                 <input type="text" formControlName="institut" [value]="nomInstitut" class="form-control" placeholder="Nom de l'institution" (input)="onInputChange($event.target)">
                                                 <i class="ri-search-line search-icon"></i>
                                                 <ul class="autocomplete-list" *ngIf="showOptions">
@@ -81,11 +70,32 @@
                                                 </ul>
                                             </div>
                                         </div>
+
+                                        <div class="col mb-3">
+                                            <label class="form-label">Prénom</label>
+                                            <input type="text" (keyup)="filter()" formControlName="prenom" class="form-control">
+                                        </div>
+
+                                        <div class="col mb-3">
+                                            <label class="form-label">Nom</label>
+                                            <input type="text" (keyup)="filter()" formControlName="nom" class="form-control">
+                                        </div>
+
+                                        <div class="col mb-3">
+                                            <label class="form-label">Fonction</label>
+                                            <input type="text" (keyup)="filter()" formControlName="fonction" class="form-control">
+                                        </div>
+
             
                                     </div>
                                 </div>
+
                             </div>
                         </div>
+            
+                        
+
+                        
             
                     </div>
                 </form>
@@ -107,55 +117,38 @@
     <div class="col-md-12">
        <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">LISTE DES CONTACTS</h4>
+                <h4 class="card-title mb-0">RÉSULTAT DE LA RECHERCHE</h4>
             </div><!-- end card header -->
      
             @if(contacts.length !== 0){
+
+                
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table align-middle mb-0">
-                          <thead class="table-light">
-                            <tr>
-                              <th scope="col">Prénom et Nom</th>
-                              <th scope="col">Fonction</th>
-                              <th scope="col">T. Fixe</th>
-                              <th scope="col">T. Doimicile</th>
-                              <th scope="col">T. Mobile</th>
-                              <th scope="col">Email</th>
-                              <th scope="col">Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let data of contacts">
-                            <td>
-                                <div class="d-flex gap-2 align-items-center">
-                                
-                                    <div class="flex-grow-1">
-                                    {{data.prenom}} {{data.nom}}
+                    <div class="row">
+                        <div class="row row-cols-xxl-4 row-cols-lg-3 row-cols-1">
+                            <div class="col" *ngFor="let data of contacts">
+                                <div class="card card-body">
+                                    <div class="d-flex mb-4 align-items-center contact-box">
+                                        <div class="flex-shrink-0">
+                                            <img src="assets/images/contacts/user.png" alt="" class="avatar-sm rounded-circle" />
+                                        </div>
+
+                                        <div class="flex-grow-1 ms-2">
+                                            <h5 class="card-title mb-1">{{ data.prenom }} {{ data.nom }}</h5>
+                                            <p class="text-muted mb-0">{{ data.fonction }}</p>
+                                        </div>
                                     </div>
+                                    <h6 class="mb-1"><span class="label-box">Mobile:</span><a href="tel:{{ data.telephone_mobile ? data.telephone_mobile: '' }}"> {{ data.telephone_mobile ? data.telephone_mobile: 'N/A' }}</a></h6>
+                                    <h6 class="mb-1"><span class="label-box">Domicile:</span> <a href="tel:{{ data.telephone_domicile ? data.telephone_domicile : '' }}"> {{ data.telephone_domicile ? data.telephone_domicile : 'N/A' }}</a></h6>
+                                    <h6 class="mb-1"><span class="label-box">Fixe:</span><a href="tel:{{ data.telephone_fixe ? data.telephone_fixe : '' }}"> {{ data.telephone_fixe ? data.telephone_fixe : 'N/A' }}</a></h6>
+                                    <h6 class="mb-1"><span class="label-box">Email:</span> <a href="mailto:{{ data.email ?  data.email : ''}}"> {{ data.email ?  data.email : 'N/A'}}</a></h6>
+                                    <h6 class="mb-1">{{ data.institut.nom}}</h6>
+                                    <h6 class="mb-1">{{data.institut.type_institut.ville.nom}}, {{data.institut.type_institut.ville.pays.nom_fr_fr}}</h6>
                                 </div>
-                            </td>
-                              <td>{{data.fonction}}</td>
-                              <td>&nbsp;</td>
-                              <td>{{data.telephone_fixe}}</td>
-                              <td>{{data.telephone_mobile}}</td>
-                              
-                              <td>{{data.email}}</td>
-                              <td>
-                                <div class="flex-shrink-0 ms-2">
-                                  <div>
-                                      <button type="button" (click)="navigateToEdit(data.id)" class="btn btn-sm btn-light"><i class="ri-pencil-line align-bottom"></i></button>
-                                      <button type="button" (click)="ouvrirModal(data, '800px', '525px')" class="btn btn-sm btn-light"><i class="ri-eye-line align-bottom"></i></button>
-                                  </div>
-                              </div>
-                              </td>
-                            </tr>
-                            <!-- Ajoutez ici d'autres lignes de la table -->
-                          </tbody>
-                          
-                        </table>
-                        <!-- Fin de la table -->
-                      </div>
+                            
+                            </div>
+                    </div>
+                    </div>
                 </div><!-- end card -->
     
                 <div class="card-footer">

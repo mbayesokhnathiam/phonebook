@@ -111,4 +111,11 @@ export class ContactService {
       `${environment.apiUrl}/format/contacts`
     );
   }
+
+
+  criteriaSearchContacts(request: any, page: any): Observable<ContactPagination> {
+    return this.http.post<ContactPagination>(
+      `${environment.apiUrl}/search/contacts?page=${page}`,request
+    );
+  }
 }

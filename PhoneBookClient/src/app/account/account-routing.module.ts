@@ -11,6 +11,10 @@ const routes: Routes = [
   },
   {
     path: 'signin', component: LoginComponent
+  },
+  {
+    path: '**', component: LoginComponent
+    
   }
 ];
 

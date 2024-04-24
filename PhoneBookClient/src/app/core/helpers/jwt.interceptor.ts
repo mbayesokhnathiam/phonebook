@@ -4,12 +4,13 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/account/services/auth.service';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
      // Exclude certain routes from requiring token
@@ -34,23 +35,8 @@ export class JwtInterceptor implements HttpInterceptor {
       catchError(error => {
         if (error.status === 401) {
           // Le token a expiré, rafraîchir le token
-          return this.authService.refresh().pipe(
-            switchMap((response) => {
-                this.authService.setToken(response.authorisation.token);
-              // Réessayer la requête avec le nouveau token
-              const token = this.authService.getToken();
-              request = request.clone({
-                setHeaders: {
-                  Authorization: `Bearer ${token}`
-                }
-              });
-              return next.handle(request);
-            }),
-            catchError(() => {
-              // Échec du rafraîchissement du token, rediriger vers la page de connexion ou gérer l'erreur
-              return throwError(error);
-            })
-          );
+          this.authService.deleteToken();
+          this.router.navigate(['/auth/signin']);
         }
         return throwError(error);
       })

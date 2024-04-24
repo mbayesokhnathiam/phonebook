@@ -18,6 +18,8 @@ Route::middleware(['jwt.auth'])->group(function () {
 
 
     Route::resource('/contacts',\App\Http\Controllers\ContactController::class);
+    Route::resource('/users',\App\Http\Controllers\UtilisateurController::class);
+    Route::post('/search/contacts',[\App\Http\Controllers\ContactController::class,'searchContact']);
     Route::get('/format/contacts',[\App\Http\Controllers\ContactController::class,'formatContact']);
     Route::get('/settings/type', [\App\Http\Controllers\SettingsController::class,'paginateTypeInstitut']);
     Route::get('/settings/format-ville', [\App\Http\Controllers\SettingsController::class,'formatVille']);
@@ -34,6 +36,7 @@ Route::middleware(['jwt.auth'])->group(function () {
         'prefix' => 'auth'
     ], function ($router) {
 
+        Route::get('/reset/users', [AuthController::class, 'resetPassword'])->middleware('auth:api')->name('reset');
         Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('logout');
         Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api')->name('refresh');
     });

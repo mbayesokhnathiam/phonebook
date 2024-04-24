@@ -159,8 +159,8 @@ export class CreerContactComponent implements OnInit {
   saveContact(){
 
     Swal.fire({
-      title: "Confirmation?",
-      text: "Voulez-vous enregistrer ce contact!",
+      title: "Confirmation",
+      text: "Voulez-vous enregistrer ce contact?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#008000",

@@ -19,7 +19,7 @@ import { TreeItem } from '../tree-node/tree.model';
 })
 export class CriteriaSearchComponent  implements OnInit, OnDestroy {
 
-  receivedData!: number;
+
   currentPage: number = 1;
   pays: Pays[] = [];
 
@@ -63,16 +63,8 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     this.initSearchForm();
-    
     this.listPays();
 
-    this.contactService.sharedData$.subscribe(data => {
-      this.receivedData = data;
-      if(this.receivedData !== null){
-        this.getContactByInstitut(this.receivedData,this.currentPage);
-      }
-
-    });
   }
   term: any;
   paginationDatas: any;
@@ -84,16 +76,20 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
   totalRecords: number = 0;
   searchContactForm!: FormGroup;
 
-  response!: TreeData;
+
 
   modalOuvert = false;
 
   initSearchForm() {
     this.searchContactForm = new FormGroup({
       institut: new FormControl(''),
-      pays: new FormControl('', [Validators.required]),
+      institution: new FormControl(''),
+      pays: new FormControl(''),
       type: new FormControl(''),
       ville: new FormControl(''),
+      nom: new FormControl(''),
+      prenom: new FormControl(''),
+      fonction: new FormControl(''),
     });
   }
 
@@ -134,13 +130,14 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
     this.institutionSelected = true;
     if (this.searchContactForm) {
       const institutControl = this.searchContactForm.get('institut');
+      const institutionControl = this.searchContactForm.get('institution');
       if (institutControl) {
         // Maintenant, vous pouvez utiliser institutControl en toute sécurité
         // Par exemple, obtenir la valeur de contrôle
+        institutionControl?.setValue(cab.id);
         institutControl.setValue(cab.nom);
         this.filteredInstitut = cab;
-        this.receivedData = cab.id;
-        this.getContactByInstitut(cab.id,this.currentPage);
+        this.searchContact(this.searchContactForm.value, this.currentPage);
       } else {
         console.error('Le contrôle "institut" n\'a pas été trouvé dans le formulaire.');
       }
@@ -163,11 +160,12 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
   // BEGIN TREE
 
 
-  getContactByInstitut(id:number, page: any){
-    this.contactService.getContactByInstitut(id, page).subscribe((res) => {
+  searchContact(request: any, page: any){
+    this.contactService.criteriaSearchContacts(request, page).subscribe((res) => {
       this.contactPages = res;
       this.contacts = this.contactPages.data;
-
+      console.log(this.contacts);
+      
     });
   }
 
@@ -205,24 +203,21 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
     this.searchContactForm.get('institut')?.setValue('');
     this.contacts = [];
     if(event.target.value !== ''){
-      this.listVillesParPays(event.target.value); 
+      this.listVillesParPays(event.target.value);
+      this.searchContact(this.searchContactForm.value, this.currentPage); 
       this.paysSelected = true;
       this.villeSelected = false;
       this.typeSelected = false;
       this.institutionSelected = false;
       this.instituts = [];
       this.filteredInstitut = undefined;
-      this.receivedData = 0;
     }else{
       this.paysSelected = false;
       this.villeSelected = false;
       this.typeSelected = false;
-      this.response.data = [];
       this.institutionSelected = false;
       this.instituts = [];
-
       this.filteredInstitut = undefined;
-      this.receivedData = 0;
 
     }
   }
@@ -231,13 +226,14 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
     this.searchContactForm.get('institut')?.setValue('');
     if(event.target.value !== ''){
     this.listTypesParVille(event.target.value);
+    this.searchContact(this.searchContactForm.value, this.currentPage);
     this.villeSelected = true;
     this.typeSelected = false;
     this.institutionSelected = false;
     this.instituts = [];
 
     this.filteredInstitut = undefined;
-    this.receivedData = 0;
+
     // nettoyer les tree
 
     }else{
@@ -245,8 +241,6 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
       this.typeSelected = false;
 
       this.filteredInstitut = undefined;
-      this.receivedData = 0;
-
       // nettoyer les tree
       this.filteredInstitut = undefined;
       this.listVillesParPays(this.selectedIdPays);
@@ -262,28 +256,47 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
     this.filteredInstituts = [];
 
     if(event.target.value !== ''){
-      this.listInstitutParType(event.target.value) 
+      this.listInstitutParType(event.target.value);
+      this.searchContact(this.searchContactForm.value, this.currentPage);
       this.typeSelected = true;
       this.institutionSelected = false;
 
       this.filteredInstitut = undefined;
-      this.receivedData = 0;
     }else{
       this.typeSelected = false;
       this.listTypesParVille(this.selectedIdVille);
       this.institutionSelected = false;
       this.filteredInstitut = undefined;
-      this.receivedData = 0;
     }
   }
 
   paginateContact(page: any){
     this.currentPage = page;
-    this.getContactByInstitut(this.receivedData, this.currentPage);
+    this.searchContact(this.searchContactForm.value, this.currentPage);
   }
 
   ngOnDestroy(): void {
     this.contactService.setSharedData(null);
+  }
+
+
+  filter(){
+    this.searchContact(this.searchContactForm.value, this.currentPage);
+  }
+
+  resetSearch(){
+    this.searchContactForm.reset();
+    this.paysSelected = false;
+    this.villeSelected = false;
+    this.typeSelected = false;
+    this.institutionSelected = false;
+    this.instituts = [];
+    this.filteredInstitut = undefined;
+    this.contactPages.links = [];
+    this.filteredInstitut = undefined;
+    this.contacts = [];
+    this.contactPages ??  undefined
+
   }
 
 

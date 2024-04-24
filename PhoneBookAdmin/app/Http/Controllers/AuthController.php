@@ -52,6 +52,9 @@ class AuthController extends Controller
         }
 
         $user = Auth::guard('api')->user();
+
+        $usr = User::query()->where('email',$request->get('email'))->first();
+        $usr->connected();
         return response()->json([
             'status' => 'success',
             'user' => $user,
@@ -91,6 +94,19 @@ class AuthController extends Controller
                 'token' => Auth::guard('api')->refresh(),
                 'type' => 'bearer',
             ]
+        ]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $id = $request->input('id');
+        $user = User::find($id);
+
+        $user->resetPassword();
+
+        return response()->json([
+            'status' => 201,
+            'message' => 'Mot de password réinitialisé avec succès!',
         ]);
     }
 

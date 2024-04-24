@@ -51,7 +51,7 @@ interface Institut {
   typeInstitutId: number;
   created_at: string; // Vous pouvez utiliser un type Date si nécessaire
   updated_at: string; // Vous pouvez utiliser un type Date si nécessaire
-  typeinstitut: TypeInstitut;
+  type_institut: TypeInstitut;
 }
 export interface Contact {
   id: number;

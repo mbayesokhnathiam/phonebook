@@ -46,11 +46,9 @@ export class LoginComponent implements OnInit {
    */
   onSubmit() {
     this.authService.login(this.loginForm.value).subscribe((res) => {
-      console.log(res);
-      
       if(res.status === 'success'){
         this.authService.setToken(res.authorisation.token);
-        this.router.navigate(['/']);
+        this.router.navigate(['/contact/advanced/search']);
         return;
       }else{
         Swal.fire({

@@ -93,8 +93,6 @@ export class InstitutComponent implements OnInit{
   paginateInstitutions(page: any, ville:any){
     this.settingsService.PaginateInstitution(page,ville).subscribe((res) => {
       this.institutPages = res;
-      console.log(this.institutPages);
-      
       this.instititutions = this.institutPages.data;
     });
   }

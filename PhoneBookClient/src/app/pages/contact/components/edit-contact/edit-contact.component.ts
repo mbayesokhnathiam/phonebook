@@ -149,10 +149,10 @@ export class EditContactComponent implements OnInit {
       this.contactEdit = res;
       this.preRemplirFormulaire(this.contactEdit);
       this.listInstitutParType(this.contactEdit.institut.id);
-      this.updateContactForm.get('pays')?.setValue(this.contactEdit.institut.typeinstitut.ville.pays.id);
-      this.listVillesParPays(this.contactEdit.institut.typeinstitut.ville.pays.id);
-      this.updateContactForm.get('ville')?.setValue(this.contactEdit.institut.typeinstitut.ville.id);
-      this.listTypesParVille(this.contactEdit.institut.typeinstitut.ville.id);
+      this.updateContactForm.get('pays')?.setValue(this.contactEdit.institut.type_institut.ville.pays.id);
+      this.listVillesParPays(this.contactEdit.institut.type_institut.ville.pays.id);
+      this.updateContactForm.get('ville')?.setValue(this.contactEdit.institut.type_institut.ville.id);
+      this.listTypesParVille(this.contactEdit.institut.type_institut.ville.id);
       this.filteredInstitut=this.contactEdit.institut;
       this.nomInstitut = this.contactEdit.institut.nom;
       this.selectedInstitut = this.contactEdit.institut;

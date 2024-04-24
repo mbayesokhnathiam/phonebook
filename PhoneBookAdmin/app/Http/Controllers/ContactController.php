@@ -162,14 +162,65 @@ class ContactController extends Controller
 
     }
 
-    public function searchContant(Request $request)
+    public function searchContact(Request $request)
     {
         $pays = $request->input('pays');
         $ville = $request->input('ville');
         $type = $request->input('type');
-        $institut = $request->input('institut');
+        $institution = $request->input('institution');
+        $nom = $request->input('nom');
+        $prenom = $request->input('prenom');
+        $fonction = $request->input('fonction');
         $page = $request->input('page');
         $size = 10;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
+        $query = Contact::with('institut.typeInstitut.ville.pays');
+
+        if ($pays) {
+            $query->whereHas('institut.typeInstitut.ville.pays', function ($q) use ($request) {
+                $q->where('id', $request->pays);
+            });
+        }
+
+        if ($ville) {
+            $query->whereHas('institut.typeInstitut.ville', function ($q) use ($request) {
+                $q->where('id', $request->ville);
+            });
+        }
+
+        if ($type) {
+            $query->whereHas('institut.typeInstitut', function ($q) use ($request) {
+                $q->where('id', $request->type);
+            });
+        }
+
+        if ($institution) {
+            $query->whereHas('institut', function ($q) use ($request) {
+                $q->where('id', $request->institution);
+            });
+        }
+
+        if ($nom) {
+            $query->whereRaw('LOWER(nom) LIKE LOWER(?)', ['%' . strtolower($request->nom) . '%']);
+
+        }
+
+        if ($prenom) {
+            $query->whereRaw('LOWER(prenom) LIKE LOWER(?)', ['%' . strtolower($request->prenom) . '%']);
+        }
+
+        if ($fonction) {
+            $query->whereRaw('LOWER(fonction) LIKE LOWER(?)', ['%' . strtolower($request->fonction) . '%']);
+        }
+
+        $contacts = $query->paginate($size);
+
+        return $contacts;
+
     }
 
 

@@ -15,7 +15,7 @@ export const MENU: MenuItem[] = [
   {
     id: 3,
     label: 'Contact',
-    icon: 'mdi mdi-form-select',
+    icon: 'mdi mdi-contacts',
     subItems: [
       {
         id: 8,
@@ -75,10 +75,16 @@ export const MENU: MenuItem[] = [
         link: '/settings/contact/import',
         parentId: 5
       }
-
-      
     ]
+  },
+  {
+    id: 11,
+    icon: 'mdi mdi-account-group',
+    label: 'Utilisateurs',
+    link: '/users/list',
+    
   }
+  
   
 
 ];
