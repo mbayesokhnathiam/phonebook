@@ -19,6 +19,12 @@ export const MENU: MenuItem[] = [
     subItems: [
       {
         id: 8,
+        label: 'Nouveau',
+        link: '/contact/creer',
+        parentId: 4
+      },
+      {
+        id: 8,
         label: 'Recherche',
         link: '/contact/search',
         parentId: 4
