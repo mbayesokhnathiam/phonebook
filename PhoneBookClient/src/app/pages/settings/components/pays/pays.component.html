@@ -44,7 +44,7 @@
                         <table class="table align-middle mb-0">
                           <thead class="table-light">
                             <tr>
-                                <th scope="col">Code</th>
+                              <th scope="col">Code</th>
                               <th scope="col">Pays</th>
                               <th scope="col">Action</th>
                             </tr>
@@ -54,11 +54,7 @@
                               <td>{{data.code}}</td>
                               <td>{{data.nom_fr_fr}}</td>
                               <td>
-                                <div class="flex-shrink-0 ms-2">
-                                  <div>
-                                      <button (click)="edit(data)" type="button" class="btn btn-sm btn-light"><i class="ri-pencil-line align-bottom"></i></button>
-                                  </div>
-                              </div>
+                                <button (click)="edit(data)" type="button" class="btn btn-sm btn-light"><i class="ri-pencil-line align-bottom"></i></button>
                               </td>
                             </tr>
                             <!-- Ajoutez ici d'autres lignes de la table -->

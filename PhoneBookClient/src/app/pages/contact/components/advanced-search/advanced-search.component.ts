@@ -3,6 +3,7 @@ import { TypeItem } from 'src/app/pages/settings/models/parametre.model';
 import { FormatItem } from '../../models/format.model';
 import { FormControl } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-advanced-search',
@@ -11,7 +12,9 @@ import { ContactService } from '../../services/contact.service';
 })
 export class AdvancedSearchComponent  implements OnInit{
 
-  constructor(private contactService: ContactService){}
+  constructor(private contactService: ContactService, private router: Router){
+
+  }
 
 
 
@@ -97,6 +100,10 @@ export class AdvancedSearchComponent  implements OnInit{
 
 
   // End search
+
+  navigateToSearch(){
+    this.router.navigate(['/contact/criteria/search']);
+  }
 
   
 }

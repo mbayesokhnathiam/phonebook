@@ -1,8 +1,8 @@
-<div class="app-menu navbar-menu">
+<div class="app-menu navbar-menu" id="menu-nav">
     <!-- LOGO -->
-    <div class="navbar-brand-box">
+    <div class="navbar-brand-box" id="">
         <!-- Dark Logo-->
-        <a routerLink="/" class="logo logo-dark">
+        <a (click)="navigateToHome()" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="assets/images/contacts/contact.svg" alt="" height="22">
             </span>
@@ -11,7 +11,7 @@
             </span>
         </a>
         <!-- Light Logo-->
-        <a routerLink="/" class="logo logo-light">
+        <a (click)="navigateToHome()" class="logo logo-light">
             <span class="logo-sm">
                 <img src="assets/images/contacts/contact.svg" alt="" height="22">
             </span>
@@ -27,7 +27,7 @@
     <div id="scrollbar">
         <div class="container-fluid">
 
-            <div id="two-column-menu">
+            <!-- <div id="two-column-menu">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
                 @for(item of menuItems; track $index){
@@ -104,7 +104,7 @@
                     </li>
                 }
                 }
-            </ul>
+            </ul> -->
         </div>
         <!-- Sidebar -->
     </div>

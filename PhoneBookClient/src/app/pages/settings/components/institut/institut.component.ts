@@ -75,7 +75,7 @@ export class InstitutComponent implements OnInit{
             });
             this.nomType = '';
             this.createInstitutForm.reset();
-            this.paginateInstitutions(1, this.filteredType.id);
+            this.paginateInstitutions(1, this.selectedType.id);
           }else{
             Swal.fire({
               title: "Erreur!",

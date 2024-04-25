@@ -1,22 +1,29 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
+        <div class="card rounded">
              <div class="card-header">
                  <h4 class="card-title mb-0">RECHERCHE RAPIDE</h4>
                  <div class="mb-3 mt-3">
 
                              <div class="input-group">
-                                <input type="text" [value]="nomTypeSearch" class="form-control" placeholder="Rechercher un par son nom, son prénom ou sa fonction"
+                                <input type="text" [value]="nomTypeSearch" class="form-control input-large" placeholder="Rechercher un par son nom, son prénom ou sa fonction"
                                         (input)="onInputChangeSearch($event.target)">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" (click)="clearSearch()">
+                                    <button class="form-control input-large" type="button" (click)="clearSearch()">
                                         <i class="mdi mdi-close"></i> <!-- Icône "Effacer" -->
                                     </button>
                                 </div>
                             </div>
+                            
                      <ul class="autocomplete-list" *ngIf="showOptionsSearch">
                          <li *ngFor="let i of filteredContactSearch" (click)="selectOptionSearch(i)">{{ i.nom }}</li>
                      </ul>
+                 </div>
+
+                 <div class="mb-3 text-end">
+                    <a class="search-link" (click)="navigateToSearch()">
+                        Recherche avancée
+                    </a>
                  </div>
              </div><!-- end card header -->
 

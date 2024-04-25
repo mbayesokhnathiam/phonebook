@@ -14,6 +14,7 @@ import { CartModel } from './topbar.model';
 import { cartData } from './data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/account/services/auth.service';
+import { paramsItems } from '../data-menu';
 
 @Component({
   selector: 'app-topbar',
@@ -44,6 +45,8 @@ export class TopbarComponent implements OnInit {
   @ViewChild('removenotification') removenotification !: TemplateRef<any>;
   notifyId: any;
 
+  params: any;
+
   constructor(@Inject(DOCUMENT) private document: any, private eventService: EventService, private modalService: NgbModal,
     public _cookiesService: CookieService, public translate: TranslateService,
     private router: Router, private authService: AuthService) { }
@@ -51,29 +54,8 @@ export class TopbarComponent implements OnInit {
   ngOnInit(): void {
 
     this.userData = this.authService.getDataWithToken();
-
     this.element = document.documentElement;
-
-    // Cookies wise Language set
-    this.cookieValue = this._cookiesService.get('lang');
-    const val = this.listLang.filter(x => x.lang === this.cookieValue);
-    this.countryName = val.map(element => element.text);
-    if (val.length === 0) {
-      if (this.flagvalue === undefined) { this.valueset = 'assets/images/flags/us.svg'; }
-    } else {
-      this.flagvalue = val.map(element => element.flag);
-    }
-
-    // Fetch Data
-    this.allnotifications = allNotification;
-
-    this.messages = messages;
-    this.cartData = cartData;
-    this.cart_length = this.cartData.length;
-    this.cartData.forEach((item) => {
-      var item_price = item.quantity * item.price
-      this.total += item_price
-    });
+    this.params = paramsItems;
   }
 
   /**
@@ -317,6 +299,10 @@ export class TopbarComponent implements OnInit {
     if (this.totalNotify == 0) {
       document.querySelector('.empty-notification-elem')?.classList.remove('d-none')
     }
+  }
+
+  navigateToHome(){
+    this.router.navigate(['/contact/advanced/search']);
   }
 
   

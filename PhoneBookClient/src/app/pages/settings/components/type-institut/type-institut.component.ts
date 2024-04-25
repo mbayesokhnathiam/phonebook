@@ -66,7 +66,6 @@ export class TypeInstitutComponent implements OnInit{
     }).then((result) => {
       if (result.isConfirmed) {
         this.settingsService.saveTypeInstitut(this.createTypeForm.value).subscribe((res) => {
- 
           if(res.status === 201){
             Swal.fire({
               title: "Enregistré!",
@@ -74,8 +73,8 @@ export class TypeInstitutComponent implements OnInit{
               icon: "success"
             });
             this.nomVille = '';
+            this.paginateTypes(1,this.selectedVille.id);
             this.createTypeForm.reset();
-            this.paginateTypes(1,this.filteredVille.id);
           }else{
             Swal.fire({
               title: "Erreur!",

@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -21,7 +21,7 @@ export class HorizontalTopbarComponent implements OnInit {
   isopened! : boolean;
   @ViewChild('sideMenu') sideMenu!: ElementRef;
   @Output() mobileMenuButtonClicked = new EventEmitter();
-  constructor(private router: Router, public translate: TranslateService, private layoutService: LayoutService) {
+  constructor(private router: Router, public translate: TranslateService, private layoutService: LayoutService, private elementRef: ElementRef) {
     translate.setDefaultLang('en');
   }
 
@@ -91,8 +91,11 @@ export class HorizontalTopbarComponent implements OnInit {
       this.removeActivation(items);
     }
     this.activateParentDropdown(event.target);
+
     if(this.isopened === true){
       this.isopened = !this.isopened;
+      console.log(this.isopened);
+      
       this.layoutService.setSharedData(this.isopened);
       document.body.classList.toggle('menu');
     }
@@ -174,5 +177,12 @@ export class HorizontalTopbarComponent implements OnInit {
       document.body.classList.toggle('menu');
     }
   }
+
+  navigateToHome(){
+    this.router.navigate(['/contact/advanced/search']);
+  }
+
+  
+
 
 }
