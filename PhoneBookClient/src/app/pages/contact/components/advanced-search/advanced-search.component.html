@@ -6,7 +6,7 @@
                  <div class="mb-3 mt-3">
 
                              <div class="input-group">
-                                <input type="text" [value]="nomTypeSearch" class="form-control input-large" placeholder="Rechercher un par son nom, son prénom ou sa fonction"
+                                <input type="text" [value]="nomTypeSearch" class="form-control input-large" placeholder="Rechercher un contact par son nom, son prénom, sa fonction, etc."
                                         (input)="onInputChangeSearch($event.target)">
                                 <div class="input-group-append">
                                     <button class="form-control input-large" type="button" (click)="clearSearch()">
@@ -44,9 +44,9 @@
                     </div>
                 </div>
                 <h6 class="mb-1"><span class="label-box">Mobile:</span><a href="tel:{{ data.telephone_mobile ? data.telephone_mobile: '' }}"> {{ data.telephone_mobile ? data.telephone_mobile: 'N/A' }}</a></h6>
-                <h6 class="mb-1"><span class="label-box">Domicile:</span> <a href="tel:{{ data.telephone_domicile ? data.telephone_domicile : '' }}"> {{ data.telephone_domicile ? data.telephone_domicile : 'N/A' }}</a></h6>
-                <h6 class="mb-1"><span class="label-box">Fixe:</span><a href="tel:{{ data.telephone_fixe ? data.telephone_fixe : '' }}"> {{ data.telephone_fixe ? data.telephone_fixe : 'N/A' }}</a></h6>
-                <h6 class="mb-1"><span class="label-box">Email:</span> <a href="mailto:{{ data.email ?  data.email : ''}}"> {{ data.email ?  data.email : 'N/A'}}</a></h6>
+                                    <h6 class="mb-1"><span class="label-box">Domicile:</span> <a href="tel:{{ data.telephone_domicile ? data.telephone_domicile : '' }}"> {{ data.telephone_domicile ? data.telephone_domicile : 'N/A' }}</a></h6>
+                                    <h6 class="mb-1"><span class="label-box">Fixe:</span><a href="tel:{{ data.telephone_fixe ? data.telephone_fixe : '' }}"> {{ data.telephone_fixe ? data.telephone_fixe : 'N/A' }}</a></h6>
+                                    <h6 class="mb-1"><span class="label-box">Email:</span> <a href="mailto:{{ data.email ?  data.email : ''}}"> {{ data.email ?  data.email : 'N/A'}}</a></h6>
                 <h6 class="mb-1">{{ data.institut.nom}}</h6>
                 <h6 class="mb-1">Dakar, SENEGAL</h6>
             </div>
