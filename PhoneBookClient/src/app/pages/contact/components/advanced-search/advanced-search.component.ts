@@ -6,6 +6,8 @@ import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/account/services/auth.service';
+import { Contact } from '../../models/contact.model';
+import { ContactPagination } from '../../models/page-contact.model';
 
 @Component({
   selector: 'app-advanced-search',
@@ -18,6 +20,10 @@ export class AdvancedSearchComponent  implements OnInit{
 
   }
 
+  currentPage: number = 1;
+
+  contactsfav: Contact[] = [];
+  contactPages!: ContactPagination;
 
 
   contacts: FormatItem[] = [];
@@ -39,6 +45,7 @@ export class AdvancedSearchComponent  implements OnInit{
   ngOnInit(): void {
     this.formatContact();
     this.userData = this.authService.getDataWithToken();
+    this.favorisContact(this.currentPage);
   }
 
   
@@ -96,6 +103,7 @@ export class AdvancedSearchComponent  implements OnInit{
   }
 
   clearSearch() {
+    this.currentPage = 1;
     this.nomTypeSearch = '';
     this.data = null;
     this.filteredContactSearch = []; // Réinitialiser la valeur de recherche
@@ -151,6 +159,17 @@ export class AdvancedSearchComponent  implements OnInit{
     });
   }
   
+  favorisContact(page: any){
+    this.contactService.favorisContacts(page).subscribe((res) => {
+      this.contactPages = res;
+      this.contactsfav = this.contactPages.data;
+    });
+  }
+
+  paginateContact(page: any){
+    this.currentPage = page;
+    this.favorisContact(this.currentPage);
+  }
   
 }
 

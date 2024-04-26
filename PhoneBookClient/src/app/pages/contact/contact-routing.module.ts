@@ -10,12 +10,12 @@ import { GestionnaireGuard } from 'src/app/core/guards/gestionnaire.guard';
 const routes: Routes = [
   {
       path: "",
-      component: SearchComponent
+      component: AdvancedSearchComponent
   },
-  {
-    path: "search",
-    component: SearchComponent
-},
+//   {
+//     path: "search",
+//     component: SearchComponent
+// },
 {
   path: "advanced/search",
   component: AdvancedSearchComponent
@@ -32,6 +32,11 @@ const routes: Routes = [
   path: "edit/:id",
   component: EditContactComponent,
   canActivate: [GestionnaireGuard]
+},
+
+{
+  path: "**",
+  redirectTo: 'advanced/search'
 },
   
   
