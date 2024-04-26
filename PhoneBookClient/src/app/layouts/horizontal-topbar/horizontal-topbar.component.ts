@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 import { LayoutService } from '../services/layout.service';
+import { AuthService } from 'src/app/account/services/auth.service';
 
 @Component({
   selector: 'app-horizontal-topbar',
@@ -19,9 +20,10 @@ export class HorizontalTopbarComponent implements OnInit {
   menu: any;
   menuItems: MenuItem[] = [];
   isopened! : boolean;
+  userData: any;
   @ViewChild('sideMenu') sideMenu!: ElementRef;
   @Output() mobileMenuButtonClicked = new EventEmitter();
-  constructor(private router: Router, public translate: TranslateService, private layoutService: LayoutService, private elementRef: ElementRef) {
+  constructor(private router: Router, public translate: TranslateService, private layoutService: LayoutService, private authService: AuthService) {
     translate.setDefaultLang('en');
   }
 
@@ -32,6 +34,8 @@ export class HorizontalTopbarComponent implements OnInit {
     this.layoutService.sharedData$.subscribe(data => {
       this.isopened = data;
     });
+
+    this.userData = this.authService.getDataWithToken();
   }
 
 

@@ -255,5 +255,17 @@ class ContactController extends Controller
         return $contacts;
     }
 
+    public function deleteContact(Request $request)
+    {
+        $id = $request->input('id');
+        Contact::find($id)->delete();
+
+        return response()->json([
+            'status' => 201,
+            'message' => 'Le contact est supprimé!',
+        ]);
+
+    }
+
 
 }

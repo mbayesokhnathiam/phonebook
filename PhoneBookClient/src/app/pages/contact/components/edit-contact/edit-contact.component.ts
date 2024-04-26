@@ -223,7 +223,7 @@ export class EditContactComponent implements OnInit {
 
             this.nomInstitut = '';
             this.updateContactForm.reset();
-            this.router.navigate(['/contact/search']);
+            this.router.navigate(['/contact/criteria/search']);
       
           }else{
             Swal.fire({

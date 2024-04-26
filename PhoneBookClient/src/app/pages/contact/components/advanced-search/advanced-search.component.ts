@@ -4,6 +4,8 @@ import { FormatItem } from '../../models/format.model';
 import { FormControl } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/account/services/auth.service';
 
 @Component({
   selector: 'app-advanced-search',
@@ -12,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class AdvancedSearchComponent  implements OnInit{
 
-  constructor(private contactService: ContactService, private router: Router){
+  constructor(private authService: AuthService,private contactService: ContactService, private router: Router){
 
   }
 
@@ -33,9 +35,10 @@ export class AdvancedSearchComponent  implements OnInit{
   showOptionsSearch: boolean = false;
   selectedContact!: FormatItem;
   filteredContact!: FormatItem;
-
+  userData: any;
   ngOnInit(): void {
     this.formatContact();
+    this.userData = this.authService.getDataWithToken();
   }
 
   
@@ -105,6 +108,49 @@ export class AdvancedSearchComponent  implements OnInit{
     this.router.navigate(['/contact/criteria/search']);
   }
 
+  deleteContact(id:any){
+
+    Swal.fire({
+      title: "Confirmation",
+      text: "Voulez-vous supprimer ce contact?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#008000",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "NON",
+      confirmButtonText: "OUI"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.contactService.deleteContact(id).subscribe((res) => {
+          Swal.fire({
+            title: "Suppression!",
+            text: res.message,
+            icon: "success"
+          });
+          this.clearSearch();
+        });
+      }
+    })
+  }
+
+
+  navigateToEdit(id:any){
+    const hashId = btoa(id);
+    this.router.navigate(['/contact/edit/'+hashId]);
+  }
+
+  onClickOnFavoris(id:number){
+    this.contactService.favoris(id).subscribe((res) => {
+      Swal.fire({
+        title: "Enregistré!",
+        text: res.message,
+        icon: "success"
+      });
+
+      this.showContact(this.selectedContact.id);
+    });
+  }
+  
   
 }
 

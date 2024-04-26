@@ -29,8 +29,8 @@
                         <label for="choices-publish-status-input" class="form-label">Type de l'institution<span
                                 style="color: red;">*</span></label>
     
-                        <input type="text" [value]="nomType" class="form-control" placeholder="Rechercher le type d'institution par son nom"
-                            (input)="onInputChange($event.target)">
+                        <input type="search" [value]="nomType" class="form-control" placeholder="Rechercher le type d'institution par son nom"
+                            (input)="onInputChange($event.target)" (search)="handleClearForm()">
                         <ul class="autocomplete-list" *ngIf="showOptions">
                             <li *ngFor="let i of filteredTypes" (click)="selectOption(i)">{{ i.nom }}</li>
                         </ul>
@@ -56,9 +56,9 @@
                     <label for="choices-publish-status-input" class="form-label">Sélectionner un type d'institution<span
                             style="color: red;">*</span></label>
 
-                    <input type="text" [value]="nomTypeSearch" class="form-control" placeholder="Rechercher un type d'institution par son nom"
-                        (input)="onInputChangeSearch($event.target)">
-                    <ul class="autocomplete-list" *ngIf="showOptionsSearch">
+                    <input type="search" [value]="nomTypeSearch" class="form-control" placeholder="Rechercher un type d'institution par son nom"
+                        (input)="onInputChangeSearch($event.target)"  (search)="handleClear()">
+                    <ul class="autocomplete-list" *ngIf="showOptionsSearch === true">
                         <li *ngFor="let i of filteredTypesSearch" (click)="selectOptionSearch(i)">{{ i.nom }}</li>
                     </ul>
                 </div>
@@ -86,7 +86,8 @@
                                     <td>
                                       <div class="flex-shrink-0 ms-2">
                                         <div>
-                                            <button (click)="edit(data)" type="button" class="btn btn-sm btn-light"><i class="ri-pencil-line align-bottom"></i></button>
+                                            <button (click)="edit(data)" type="button" class="btn btn-sm btn-light mrg"><i class="ri-pencil-line align-bottom"></i></button>
+                                            <button (click)="delete(data)" type="button" class="btn btn-sm btn-light ml-3 link-danger"><i class="ri-delete-bin-fill align-bottom primary"></i></button>
                                         </div>
                                     </div>
                                     </td>
@@ -114,14 +115,14 @@
               
                             <li class="page-item" *ngFor="let page of institutPages?.links">
                               @if(page.label === '&laquo; Previous'  && institutPages.current_page > 1){
-                                <a (click)="paginateInstitutions(institutPages.current_page - 1, selectedType.id)" class="page-link" [class.active]="page.active">←</a>
+                                <a (click)="paginateInstitutions(institutPages.current_page - 1, selectedType?.id)" class="page-link" [class.active]="page.active">←</a>
                               }
               
                               @if(page.label === 'Next &raquo;'  && institutPages.current_page !== institutPages.last_page){
-                                <a (click)="paginateInstitutions(institutPages.current_page + 1, selectedType.id)" class="page-link" [class.active]="page.active">→</a>
+                                <a (click)="paginateInstitutions(institutPages.current_page + 1, selectedType?.id)" class="page-link" [class.active]="page.active">→</a>
                               }
                               @if(page.url !== null && (page.label !=='&laquo; Previous' && page.label !=='Next &raquo;')){
-                                <a (click)="paginateInstitutions(page.label, selectedType.id)" class="page-link" [class.active]="page.active">{{ page.label }}</a>
+                                <a (click)="paginateInstitutions(page.label, selectedType?.id)" class="page-link" [class.active]="page.active">{{ page.label }}</a>
                               }
                             </li>
               

@@ -104,7 +104,46 @@ export class VilleComponent  implements OnInit{
     this.createVilleForm.get('paysId')?.setValue(data.paysId);
   }
 
-  
+  delete(data:any){
+    Swal.fire({
+      title: "Confirmation",
+      text: "Voulez-vous supprimer cette ville?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#008000",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "NON",
+      confirmButtonText: "OUI"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.settingsService.deleteVille(data.id).subscribe((res) => {
+
+          if(res.status === 200){
+            Swal.fire({
+              title: "Suppression",
+              text: res.message,
+              icon: "success"
+            });
+            this.paginateVilles(1,this.selectedPaysId);
+          }else if(res.status === 400){
+            Swal.fire({
+              title: "Suppression",
+              text: res.message,
+              icon: "warning"
+            });
+          }else{
+            Swal.fire({
+              title: "Erreur!",
+              text: res.message,
+              icon: "error"
+            });
+          }
+        });
+        
+      }
+    })
+    
+  }
 
 }
 

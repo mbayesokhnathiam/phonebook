@@ -76,6 +76,29 @@ export class SettingsService {
     );
   }
 
+  deletePays(id: any): Observable<any> {
+    return this.http.delete<any>(
+      `${environment.apiUrl}/pays/${id}`,
+    );
+  }
+
+  deleteVille(id: any): Observable<any> {
+    return this.http.delete<any>(
+      `${environment.apiUrl}/villes/${id}`,
+    );
+  }
+
+  deleteTypes(id: any): Observable<any> {
+    return this.http.delete<any>(
+      `${environment.apiUrl}/types/${id}`,
+    );
+  }
+
+  deleteInstitutions(id: any): Observable<any> {
+    return this.http.delete<any>(
+      `${environment.apiUrl}/institutions/${id}`,
+    );
+  }
 
 }
 

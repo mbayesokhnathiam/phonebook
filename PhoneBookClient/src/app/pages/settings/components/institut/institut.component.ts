@@ -14,7 +14,7 @@ export class InstitutComponent implements OnInit{
 
   constructor(private settingsService: SettingsService){}
 
-  institutPages!: InstitutType;
+  institutPages!: InstitutType | undefined;
   selectedTypeId!: number;
 
   instititutions: InstitutItem[] = [];
@@ -33,7 +33,7 @@ export class InstitutComponent implements OnInit{
   filteredTypesSearch: TypeItem[] = [];
   showOptions: boolean = false;
   showOptionsSearch: boolean = false;
-  selectedType!: TypeItem;
+  selectedType!: TypeItem | null;
   filteredType!: TypeItem;
 
   ngOnInit(): void {
@@ -75,7 +75,7 @@ export class InstitutComponent implements OnInit{
             });
             this.nomType = '';
             this.createInstitutForm.reset();
-            this.paginateInstitutions(1, this.selectedType.id);
+            this.paginateInstitutions(1, this.selectedType?.id);
           }else{
             Swal.fire({
               title: "Erreur!",
@@ -117,13 +117,15 @@ export class InstitutComponent implements OnInit{
 
   @HostListener('document:click', ['$event'])
   clickOutside(event: MouseEvent) {
-    if (!this.showOptions) {
-      return;
-    }
+    // if (!this.showOptions && !this.showOptionsSearch) {
+    //   return;
+    // }
     const target = event.target as HTMLElement;
     if (!target.closest('.autocomplete-list')) {
       this.showOptions = false;
+      this.showOptionsSearch = false;
     }
+    
   }
 
   selectOption(cab: TypeItem) {
@@ -174,12 +176,13 @@ export class InstitutComponent implements OnInit{
 
   @HostListener('document:click', ['$event'])
   clickOutsideSearch(event: MouseEvent) {
-    if (!this.showOptions) {
-      return;
-    }
+    // if (!this.showOptions) {
+    //   return;
+    // }
     const target = event.target as HTMLElement;
     if (!target.closest('.autocomplete-list')) {
       this.showOptions = false;
+      this.showOptionsSearch = false;
     }
   }
 
@@ -215,6 +218,61 @@ export class InstitutComponent implements OnInit{
 
     let type = this.rechercherTypeParId(data.typeInstitutId);
     this.nomType = type.nom;
+  }
+
+  delete(data:any){
+    Swal.fire({
+      title: "Confirmation",
+      text: "Voulez-vous supprimer cette institution?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#008000",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "NON",
+      confirmButtonText: "OUI"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.settingsService.deleteInstitutions(data.id).subscribe((res) => {
+ 
+          if(res.status === 200){
+            Swal.fire({
+              title: "Suppression",
+              text: res.message,
+              icon: "success"
+            });
+            this.paginateInstitutions(1, this.selectedType?.id);
+          }else if(res.status === 400){
+            Swal.fire({
+              title: "Suppression",
+              text: res.message,
+              icon: "warning"
+            });
+          }else{
+            Swal.fire({
+              title: "Suppression",
+              text: res.message,
+              icon: "error"
+            });
+          }
+        });
+        
+      }
+    })
+    
+  }
+
+  handleClear() {
+    // Mettez ici votre logique pour gérer l'effacement du champ de recherche
+    this.institutPages = undefined;
+    this.filteredTypesSearch = [];
+    this.showOptionsSearch = false;
+  }
+
+  handleClearForm() {
+    // Mettez ici votre logique pour gérer l'effacement du champ de recherche
+    this.filteredTypes = [];
+    this.showOptions = false;
+    this.selectedType = null;
   }
 
 }

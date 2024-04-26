@@ -90,6 +90,18 @@ class PaysController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $pays = Pays::with('villes')->find($id);
+
+        if($pays->villes->count() > 0){
+            return response()->json([
+                'status' => 400, 'message' => 'Ce pays ne peut pas être supprimé, veuillez supprimer les villes associés à ce pays!'
+            ]);
+        }
+
+        $pays->delete();
+
+        return response()->json([
+            'status' => 200, 'message' => 'Pays supprimé avec succès!'
+        ]);
     }
 }

@@ -19,6 +19,7 @@ Route::middleware(['jwt.auth'])->group(function () {
 
     Route::resource('/contacts',\App\Http\Controllers\ContactController::class);
     Route::get('/favoris/contacts',[\App\Http\Controllers\ContactController::class,'favoris']);
+    Route::get('/delete/contacts',[\App\Http\Controllers\ContactController::class,'deleteContact']);
     Route::get('/favoris/list',[\App\Http\Controllers\ContactController::class,'favorisList']);
     Route::resource('/users',\App\Http\Controllers\UtilisateurController::class);
     Route::post('/search/contacts',[\App\Http\Controllers\ContactController::class,'searchContact']);

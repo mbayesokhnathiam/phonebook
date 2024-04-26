@@ -37,7 +37,7 @@
        <div class="card">
             <div class="card-header">
                 <h4 class="card-title mb-0">LISTE DES PAYS</h4>
-                
+
                 <div class="card-body">
                     <div class="table-responsive">
                       @if(paysPages){
@@ -53,8 +53,10 @@
                             <tr *ngFor="let data of pays">
                               <td>{{data.code}}</td>
                               <td>{{data.nom_fr_fr}}</td>
-                              <td>
-                                <button (click)="edit(data)" type="button" class="btn btn-sm btn-light"><i class="ri-pencil-line align-bottom"></i></button>
+                              <td class="p-3">
+                                <button (click)="edit(data)" type="button" class="btn btn-sm btn-light mrg"><i class="ri-pencil-line align-bottom"></i></button>
+                                <button (click)="delete(data)" type="button" class="btn btn-sm btn-light ml-3 link-danger"><i class="ri-delete-bin-fill align-bottom primary"></i></button>
+
                               </td>
                             </tr>
                             <!-- Ajoutez ici d'autres lignes de la table -->

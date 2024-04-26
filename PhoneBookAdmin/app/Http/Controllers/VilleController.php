@@ -91,6 +91,18 @@ class VilleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $ville = Ville::with('typeInstituts')->find($id);
+
+        if($ville->typeInstituts->count() > 0){
+            return response()->json([
+                'status' => 400, 'message' => 'Cette ville ne peut pas être supprimée, veuillez supprimer les types d\'institution associés à cette ville!'
+            ]);
+        }
+
+        $ville->delete();
+
+        return response()->json([
+            'status' => 200, 'message' => 'Ville supprimée avec succès!'
+        ]);
     }
 }

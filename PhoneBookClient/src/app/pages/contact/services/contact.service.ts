@@ -130,4 +130,10 @@ export class ContactService {
       `${environment.apiUrl}/favoris/contacts?id=${id}`
     );
   }
+
+  deleteContact(id:number): Observable<any> {
+    return this.http.get<any>(
+      `${environment.apiUrl}/delete/contacts?id=${id}`
+    );
+  }
 }

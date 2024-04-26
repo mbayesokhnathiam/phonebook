@@ -20,6 +20,8 @@ export class PaysComponent  implements OnInit{
 
   createPaysForm!: FormGroup;
 
+  currentPage = 1;
+
 
 
   ngOnInit(): void {
@@ -58,7 +60,7 @@ export class PaysComponent  implements OnInit{
               icon: "success"
             });
             this.createPaysForm.reset();
-            this.paginatePays(1);
+            this.paginatePays(this.currentPage);
           }else{
             Swal.fire({
               title: "Erreur!",
@@ -74,6 +76,7 @@ export class PaysComponent  implements OnInit{
   }
 
   paginatePays(page: any){
+    this.currentPage = page;
     this.settingsService.PaginatePays(page).subscribe((res) => {
       this.paysPages = res;
       this.pays = this.paysPages.data;
@@ -84,6 +87,48 @@ export class PaysComponent  implements OnInit{
     this.createPaysForm.get('id')?.setValue(data.id);
     this.createPaysForm.get('nom_fr_fr')?.setValue(data.nom_fr_fr);
     this.createPaysForm.get('code')?.setValue(data.code);
+  }
+
+  delete(data:any){
+    Swal.fire({
+      title: "Confirmation",
+      text: "Voulez-vous supprimer ce pays?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#008000",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "NON",
+      confirmButtonText: "OUI"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.settingsService.deletePays(data.id).subscribe((res) => {
+ 
+          if(res.status === 200){
+            Swal.fire({
+              title: "Suppression",
+              text: res.message,
+              icon: "success"
+            });
+            this.createPaysForm.reset();
+            this.paginatePays(this.currentPage);
+          }else if(res.status === 400){
+            Swal.fire({
+              title: "Suppression",
+              text: res.message,
+              icon: "warning"
+            });
+          }else{
+            Swal.fire({
+              title: "Suppression",
+              text: res.message,
+              icon: "error"
+            });
+          }
+        });
+        
+      }
+    })
+    
   }
 
   

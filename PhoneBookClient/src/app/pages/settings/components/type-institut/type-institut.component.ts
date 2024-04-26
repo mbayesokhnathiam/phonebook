@@ -16,7 +16,7 @@ export class TypeInstitutComponent implements OnInit{
 
   constructor(private settingsService: SettingsService){}
 
-  typePages!: PageType;
+  typePages!: PageType  | undefined;
   selectedVilleId!: number;
   selectedType!: any;
   types: TypeItem[] = [];
@@ -35,7 +35,7 @@ export class TypeInstitutComponent implements OnInit{
   filteredVillesSearch: Ville[] = [];
   showOptions: boolean = false;
   showOptionsSearch: boolean = false;
-  selectedVille!: Ville;
+  selectedVille!: Ville | undefined;
   filteredVille!: Ville;
 
   ngOnInit(): void {
@@ -73,7 +73,7 @@ export class TypeInstitutComponent implements OnInit{
               icon: "success"
             });
             this.nomVille = '';
-            this.paginateTypes(1,this.selectedVille.id);
+            this.paginateTypes(1,this.selectedVille?.id);
             this.createTypeForm.reset();
           }else{
             Swal.fire({
@@ -213,6 +213,62 @@ export class TypeInstitutComponent implements OnInit{
     let ville = this.rechercherVilleParId(data.villeId);
     this.nomVille = ville.nom;
   }
+
+  delete(data:any){
+    Swal.fire({
+      title: "Confirmation",
+      text: "Voulez-vous supprimer ce type d'institution?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#008000",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "NON",
+      confirmButtonText: "OUI"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.settingsService.deleteTypes(data.id).subscribe((res) => {
+ 
+          if(res.status === 200){
+            Swal.fire({
+              title: "Suppression",
+              text: res.message,
+              icon: "success"
+            });
+            this.paginateTypes(1,this.selectedVille?.id);
+          }else if(res.status === 400){
+            Swal.fire({
+              title: "Suppression",
+              text: res.message,
+              icon: "warning"
+            });
+          }else{
+            Swal.fire({
+              title: "Suppression",
+              text: res.message,
+              icon: "error"
+            });
+          }
+        });
+        
+      }
+    })
+    
+  }
+
+  handleClear() {
+    // Mettez ici votre logique pour gérer l'effacement du champ de recherche
+    this.typePages = undefined;
+    this.filteredVillesSearch = [];
+    this.showOptionsSearch = false;
+  }
+
+  handleClearForm() {
+    // Mettez ici votre logique pour gérer l'effacement du champ de recherche
+    this.filteredVilles = [];
+    this.showOptions = false;
+    this.selectedVille = undefined;
+  }
+
 
 }
 

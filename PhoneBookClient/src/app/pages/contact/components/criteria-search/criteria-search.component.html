@@ -61,7 +61,7 @@
                                             <label class="form-label">Institution</label>
                                             <div class="search-box">
                                                 
-                                                <input type="text" formControlName="institut" [value]="nomInstitut" class="form-control input-rounded" placeholder="Nom de l'institution" (input)="onInputChange($event.target)">
+                                                <input type="search" formControlName="institut" [value]="nomInstitut" class="form-control input-rounded" placeholder="Nom de l'institution" (input)="onInputChange($event.target)" (search)="handleClear()">
                                                 <i class="ri-search-line search-icon"></i>
                                                 <ul class="autocomplete-list" *ngIf="showOptions">
                                                     <li *ngFor="let i of filteredInstituts" (click)="selectOption(i)">{{ i.nom }}</li>
@@ -134,28 +134,33 @@
                     <div class="row">
                         <div class="row row-cols-xxl-4 row-cols-lg-3 row-cols-1">
                             <div class="col" *ngFor="let data of contacts">
-                                <div class="card card-body">
-                                    <div class="d-flex mb-4 align-items-center contact-box">
-                                        <div class="flex-shrink-0">
-                                            <img src="assets/images/contacts/user.png" alt="" class="avatar-sm rounded-circle" />
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex mb-4 align-items-center contact-box">
+                                            <div class="flex-shrink-0">
+                                                <img src="assets/images/contacts/user.png" alt="" class="avatar-sm rounded-circle" />
+                                            </div>
+    
+                                            <div class="flex-grow-1 ms-2">
+                                                <h5 class="card-title mb-1">{{ data.prenom }} {{ data.nom }}</h5>
+                                                <p class="text-muted mb-0">{{ data.fonction }}</p>
+                                            </div>
                                         </div>
-
-                                        <div class="flex-grow-1 ms-2">
-                                            <h5 class="card-title mb-1">{{ data.prenom }} {{ data.nom }}</h5>
-                                            <p class="text-muted mb-0">{{ data.fonction }}</p>
+                                        <h6 class="mb-1"><span class="label-box">Mobile:</span><a href="tel:{{ data.telephone_mobile ? data.telephone_mobile: '' }}"> {{ data.telephone_mobile ? data.telephone_mobile: 'N/A' }}</a></h6>
+                                        <h6 class="mb-1"><span class="label-box">Domicile:</span> <a href="tel:{{ data.telephone_domicile ? data.telephone_domicile : '' }}"> {{ data.telephone_domicile ? data.telephone_domicile : 'N/A' }}</a></h6>
+                                        <h6 class="mb-1"><span class="label-box">Fixe:</span><a href="tel:{{ data.telephone_fixe ? data.telephone_fixe : '' }}"> {{ data.telephone_fixe ? data.telephone_fixe : 'N/A' }}</a></h6>
+                                        <h6 class="mb-1"><span class="label-box">Email:</span> <a href="mailto:{{ data.email ?  data.email : ''}}"> {{ data.email ?  data.email : 'N/A'}}</a></h6>
+                                        <h6 class="mb-1">{{ data.institut.nom}}</h6>
+                                        <h6 class="mb-1">{{data.institut.type_institut.ville.nom}}, {{data.institut.type_institut.ville.pays.nom_fr_fr}}</h6>
+                                        <div class="text-end">
+                                            <a (click)="onClickOnFavoris(data.id)" class="lh-1 align-middle link-primary mat-edit-delete-icon cursor-link" ><i title="{{!data.favoris ? 'Ajouter aux favoris' : 'Retirer des favoris'}}"  class="{{!data.favoris ? 'mdi mdi-star-outline' : 'mdi mdi-star-off-outline'}}"></i></a>
+                                            <a *ngIf="userData.role ==='GESTIONNAIRE'" (click)="navigateToEdit(data.id)" class="lh-1 align-middle link-primary mat-edit-delete-icon cursor-link"><i class="mdi mdi-lead-pencil" title="Modifier ce contact"></i></a>
+                                            <a *ngIf="userData.role ==='GESTIONNAIRE'" (click)="deleteContact(data.id)"  class="lh-1 align-middle link-danger mat-edit-delete-icon cursor-link"><i class="mdi mdi-trash-can-outline" title="Supprimer ce contact"></i></a>
+                                           
                                         </div>
                                     </div>
-                                    <h6 class="mb-1"><span class="label-box">Mobile:</span><a href="tel:{{ data.telephone_mobile ? data.telephone_mobile: '' }}"> {{ data.telephone_mobile ? data.telephone_mobile: 'N/A' }}</a></h6>
-                                    <h6 class="mb-1"><span class="label-box">Domicile:</span> <a href="tel:{{ data.telephone_domicile ? data.telephone_domicile : '' }}"> {{ data.telephone_domicile ? data.telephone_domicile : 'N/A' }}</a></h6>
-                                    <h6 class="mb-1"><span class="label-box">Fixe:</span><a href="tel:{{ data.telephone_fixe ? data.telephone_fixe : '' }}"> {{ data.telephone_fixe ? data.telephone_fixe : 'N/A' }}</a></h6>
-                                    <h6 class="mb-1"><span class="label-box">Email:</span> <a href="mailto:{{ data.email ?  data.email : ''}}"> {{ data.email ?  data.email : 'N/A'}}</a></h6>
-                                    <h6 class="mb-1">{{ data.institut.nom}}</h6>
-                                    <h6 class="mb-1">{{data.institut.type_institut.ville.nom}}, {{data.institut.type_institut.ville.pays.nom_fr_fr}}</h6>
-                                    <div class="text-end">
-                                        <i (click)="onClickOnFavoris(data.id)" title="{{!data.favoris ? 'Ajouter aux favoris' : 'Retirer des favoris'}}"  class="{{!data.favoris ? 'mdi mdi-star-outline' : 'mdi mdi-star-off-outline'}} align-middle mat-icon"></i>
-                                    </div>
+                                   
                                 </div>
-                            
                             </div>
                     </div>
                     </div>

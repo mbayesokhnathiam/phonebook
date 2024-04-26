@@ -93,6 +93,18 @@ class InstitutionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $institution = Institut::with('contacts')->find($id);
+
+        if($institution->contacts->count() > 0){
+            return response()->json([
+                'status' => 400, 'message' => 'Cette institution ne peut pas être supprimée, veuillez supprimer les contacts associées à cette institution!'
+            ]);
+        }
+
+        $institution->delete();
+
+        return response()->json([
+            'status' => 200, 'message' => 'Institution supprimée avec succès!'
+        ]);
     }
 }

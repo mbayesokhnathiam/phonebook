@@ -92,6 +92,18 @@ class TypeInstitutionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $type = TypeInstitut::with('instituts')->find($id);
+
+        if($type->instituts->count() > 0){
+            return response()->json([
+                'status' => 400, 'message' => 'Ce type d\'institution ne peut pas être supprimée, veuillez supprimer les institution associées à ce type d\'institution!'
+            ]);
+        }
+
+        $type->delete();
+
+        return response()->json([
+            'status' => 200, 'message' => 'Ce type d\'institution supprimé avec succès!'
+        ]);
     }
 }

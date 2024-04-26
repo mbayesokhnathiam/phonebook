@@ -12,6 +12,7 @@ import { ModalService } from '../../services/modal.service';
 import { TreeData } from '../tree-node/tree-data.model';
 import { TreeItem } from '../tree-node/tree.model';
 import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/account/services/auth.service';
 
 @Component({
   selector: 'app-criteria-search',
@@ -30,7 +31,7 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
   // Filtrer les cabinets en fonction de la saisie de l'utilisateur
   filteredInstituts: Institut[] = [];
   showOptions: boolean = false;
-  selectedInstitut!: Institut;
+  selectedInstitut!: Institut| undefined;
   filteredInstitut: Institut | undefined;
 
   // list visibility
@@ -60,8 +61,9 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
   nomInstitut: string = '';
 
   submitSearch = false;
+  userData: any;
 
-  constructor(private contactService: ContactService, private router: Router,private modalService: ModalService){
+  constructor(private authService: AuthService,private contactService: ContactService, private router: Router,private modalService: ModalService){
 
   }
   
@@ -69,6 +71,7 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
     this.initSearchForm();
     this.listPays();
     this.favorisContact(this.currentPage);
+    this.userData = this.authService.getDataWithToken();
 
   }
   term: any;
@@ -114,6 +117,7 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
     const hashId = btoa(id);
     this.router.navigate(['/contact/edit/'+hashId]);
   }
+  
 
   onInputChange(target: any) {
     this.filteredInstituts = this.instituts.filter(i =>
@@ -344,6 +348,47 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
       }
     });
   }
+
+
+ deleteContact(id:any){
+
+    Swal.fire({
+      title: "Confirmation",
+      text: "Voulez-vous supprimer ce contact?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#008000",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "NON",
+      confirmButtonText: "OUI"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.contactService.deleteContact(id).subscribe((res) => {
+          Swal.fire({
+            title: "Suppression!",
+            text: res.message,
+            icon: "success"
+          });
+    
+          if(this.submitSearch){
+            this.searchContact(this.searchContactForm.value, this.currentPage)
+          }else{
+            this.favorisContact(this.currentPage);
+          }
+        });
+      }
+    })
+  }
+
+  handleClear() {
+    // Mettez ici votre logique pour gérer l'effacement du champ de recherche
+    this.selectedInstitut = undefined;
+    this.institutionSelected = false;
+    this.searchContact(this.searchContactForm.value, this.currentPage);
+ 
+  }
+
+  
 
 
 
