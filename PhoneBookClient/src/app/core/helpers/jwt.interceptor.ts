@@ -14,13 +14,14 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
      // Exclude certain routes from requiring token
-     if (request.url.includes(`${environment.apiUrl}/auth/signin`) || request.url.includes(`${environment.apiUrl}/auth/forgot`)) {
+     if (request.url.includes(`/auth/signin`)) {
         return next.handle(request);
     }
 
     // Get the JWT token from the authentication service
     const token = this.authService.getToken();
 
+  
     // If token is available, add it to the request headers
     if (token) {
         // Clone the request and add the JWT token to the Authorization header

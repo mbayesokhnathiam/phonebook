@@ -2,13 +2,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Component pages
-import { SearchComponent } from './contact/components/search/search.component';
+
+import { AdvancedSearchComponent } from './contact/components/advanced-search/advanced-search.component';
 
 const routes: Routes = [
     {
-        path: "",
-        component: SearchComponent
-    }
+        path: '',
+        component: AdvancedSearchComponent
+    },
+    { path: '', redirectTo:'contact', pathMatch: "full"},
     
 ];
 
