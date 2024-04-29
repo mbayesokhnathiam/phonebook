@@ -44,9 +44,21 @@ export class ContactService {
     );
   }
 
+  getTypes(): Observable<TypeInstitut[]> {
+    return this.http.get<TypeInstitut[]>(
+      `${environment.apiUrl}/data/typeinstituts`
+    );
+  }
+
   getInstitutByType(type: number): Observable<Institut[]> {
     return this.http.get<Institut[]>(
       `${environment.apiUrl}/data/instituts?type=${type}`
+    );
+  }
+
+  getInstitutByTypeAndVille(type: number, ville: number): Observable<Institut[]> {
+    return this.http.get<Institut[]>(
+      `${environment.apiUrl}/data/instituts?type=${type}&ville=${ville}`
     );
   }
 

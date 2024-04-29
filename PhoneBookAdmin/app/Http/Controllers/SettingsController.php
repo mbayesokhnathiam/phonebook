@@ -48,14 +48,13 @@ class SettingsController extends Controller
 
     public function formatType()
     {
-        $types = TypeInstitut::with('ville.pays')
-            ->orderBy('nom')
+        $types = TypeInstitut::orderBy('nom')
             ->get(); // Récupère toutes les villes avec leurs pays
 
         $formattedData = $types->map(function ($type) {
             return [
                 'id' => $type->id,
-                'nom' => $type->nom.' / '.$type->ville->nom.' / '.$type->ville->pays->nom_fr_fr // Supposant que vous voulez le nom du pays en français
+                'nom' => $type->nom
             ];
         });
 

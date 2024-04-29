@@ -14,7 +14,7 @@
                         <input type="text" class="form-control" formControlName="nom"
                             placeholder="Entrer le nom du type d'institution">
                     </div>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label for="choices-publish-status-input" class="form-label">Ville<span
                                 style="color: red;">*</span></label>
     
@@ -23,7 +23,7 @@
                         <ul class="autocomplete-list" *ngIf="showOptions">
                             <li *ngFor="let i of filteredVilles" (click)="selectOption(i)">{{ i.nom }}</li>
                         </ul>
-                    </div>
+                    </div> -->
                 </form>
                 
             </div>
@@ -41,7 +41,7 @@
        <div class="card">
             <div class="card-header">
                 <h4 class="card-title mb-0">LISTE DES TYPES D'INSTITUTION</h4>
-                <div class="mb-3 mt-3">
+                <!-- <div class="mb-3 mt-3">
                     <label for="choices-publish-status-input" class="form-label">Sélectionner la ville<span
                             style="color: red;">*</span></label>
 
@@ -50,7 +50,7 @@
                     <ul class="autocomplete-list" *ngIf="showOptionsSearch">
                         <li *ngFor="let i of filteredVillesSearch" (click)="selectOptionSearch(i)">{{ i.nom }}</li>
                     </ul>
-                </div>
+                </div> -->
             </div><!-- end card header -->
      
       
@@ -99,14 +99,14 @@
               
                             <li class="page-item" *ngFor="let page of typePages?.links">
                               @if(page.label === '&laquo; Previous'  && typePages.current_page > 1){
-                                <a (click)="paginateTypes(typePages.current_page - 1, selectedVille?.id)" class="page-link" [class.active]="page.active">←</a>
+                                <a (click)="paginateTypes(typePages.current_page - 1)" class="page-link" [class.active]="page.active">←</a>
                               }
               
                               @if(page.label === 'Next &raquo;'  && typePages.current_page !== typePages.last_page){
-                                <a (click)="paginateTypes(typePages.current_page + 1, selectedVille?.id)" class="page-link" [class.active]="page.active">→</a>
+                                <a (click)="paginateTypes(typePages.current_page + 1)" class="page-link" [class.active]="page.active">→</a>
                               }
                               @if(page.url !== null && (page.label !=='&laquo; Previous' && page.label !=='Next &raquo;')){
-                                <a (click)="paginateTypes(page.label, selectedVille?.id)" class="page-link" [class.active]="page.active">{{ page.label }}</a>
+                                <a (click)="paginateTypes(page.label)" class="page-link" [class.active]="page.active">{{ page.label }}</a>
                               }
                             </li>
               

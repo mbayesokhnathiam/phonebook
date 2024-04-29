@@ -43,7 +43,7 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
   // Selected Elements
 
   selectedIdPays = 0;
-  selectedIdVille = 0;
+  selectedIdVille: any;
   selectedIdType = 0;
 
   // Recherche
@@ -202,15 +202,17 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
 
   listTypesParVille(id: number){
     this.selectedIdVille = id;
-    this.contactService.getTypeByCity(id).subscribe((res) => {
+    this.contactService.getTypes().subscribe((res) => {
       this.types = res;
     });
   }
 
-  listInstitutParType(id: number){
+  listInstitutParTypeAndVille(id: number, ville: number){
     this.selectedIdType = id;
-    this.contactService.getInstitutByType(id).subscribe((res) => {
+    this.contactService.getInstitutByTypeAndVille(id,ville).subscribe((res) => {
       this.instituts = res;
+      console.log(this.instituts);
+      
     });
   }
 
@@ -246,6 +248,7 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
     this.currentPage = 1;
     this.searchContactForm.get('institut')?.setValue('');
     if(event.target.value !== ''){
+    this.selectedIdVille = event.target.value;
     this.listTypesParVille(event.target.value);
     this.searchContact(this.searchContactForm.value, this.currentPage);
     this.villeSelected = true;
@@ -279,11 +282,10 @@ export class CriteriaSearchComponent  implements OnInit, OnDestroy {
     this.filteredInstituts = [];
 
     if(event.target.value !== ''){
-      this.listInstitutParType(event.target.value);
+      this.listInstitutParTypeAndVille(event.target.value,this.selectedIdVille);
       this.searchContact(this.searchContactForm.value, this.currentPage);
       this.typeSelected = true;
       this.institutionSelected = false;
-
       this.filteredInstitut = undefined;
     }else{
       this.typeSelected = false;

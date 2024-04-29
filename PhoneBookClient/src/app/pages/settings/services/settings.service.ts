@@ -16,9 +16,9 @@ export class SettingsService {
   
 
 
-  PaginateTypeInstitution(page: number,ville: number): Observable<PageType> {
+  PaginateTypeInstitution(page: number): Observable<PageType> {
     return this.http.get<PageType>(
-      `${environment.apiUrl}/types?page=${page}&ville=${ville}`
+      `${environment.apiUrl}/types?page=${page}`
     );
   }
 

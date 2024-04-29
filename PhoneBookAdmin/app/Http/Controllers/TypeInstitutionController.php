@@ -14,12 +14,14 @@ class TypeInstitutionController extends Controller
     public function index(Request $request)
     {
         $page = $request->input('page');
-        $ville = $request->input('ville');
         $size = 10;
+
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         });
-        return TypeInstitut::query()->where('villeId', $ville)->paginate($size);
+
+        // Utilisez une requête pour récupérer les données paginées
+        return TypeInstitut::paginate($size);
     }
 
     /**
@@ -92,7 +94,7 @@ class TypeInstitutionController extends Controller
      */
     public function destroy(string $id)
     {
-        $type = TypeInstitut::with('instituts')->find($id);
+        $type = TypeInstitut::find($id);
 
         if($type->instituts->count() > 0){
             return response()->json([

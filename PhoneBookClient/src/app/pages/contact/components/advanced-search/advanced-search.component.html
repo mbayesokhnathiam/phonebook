@@ -72,7 +72,7 @@
                     <h4 class="card-title mb-0">CONTACTS FAVORIS</h4>
                 </div><!-- end card header -->
          
-                @if(contacts.length !== 0){
+                @if(contactsfav.length !== 0){
     
                     
                     <div class="card-body">
@@ -96,7 +96,7 @@
                                             <h6 class="mb-1"><span class="label-box">Fixe:</span><a href="tel:{{ data.telephone_fixe ? data.telephone_fixe : '' }}"> {{ data.telephone_fixe ? data.telephone_fixe : 'N/A' }}</a></h6>
                                             <h6 class="mb-1"><span class="label-box">Email:</span> <a href="mailto:{{ data.email ?  data.email : ''}}"> {{ data.email ?  data.email : 'N/A'}}</a></h6>
                                             <h6 class="mb-1">{{ data.institut.nom}}</h6>
-                                            <h6 class="mb-1">{{data.institut.type_institut.ville.nom}}, {{data.institut.type_institut.ville.pays.nom_fr_fr}}</h6>
+                                            <h6 class="mb-1">{{data.institut.ville.nom}}, {{data.institut.ville.pays.nom_fr_fr}}</h6>
                                             <div class="text-end">
                                                 <a (click)="onClickOnFavoris(data.id)" class="lh-1 align-middle link-primary mat-edit-delete-icon cursor-link" ><i title="{{!data.favoris ? 'Ajouter aux favoris' : 'Retirer des favoris'}}"  class="{{!data.favoris ? 'mdi mdi-star-outline' : 'mdi mdi-star-off-outline'}}"></i></a>
                                                 <a *ngIf="userData.role ==='GESTIONNAIRE'" (click)="navigateToEdit(data.id)" class="lh-1 align-middle link-primary mat-edit-delete-icon cursor-link"><i class="mdi mdi-lead-pencil" title="Modifier ce contact"></i></a>
@@ -110,7 +110,7 @@
                         </div>
                         </div>
                     </div><!-- end card -->
-        
+                    @if(contactsfav.length > 0){
                     <div class="card-footer">
                         <div class="align-items-center mt-4 pt-2 justify-content-between d-flex">
                             <div class="col-sm">
@@ -120,8 +120,8 @@
                             <div class="col-sm-auto">
                               <ul class="pagination pagination-separated pagination-sm justify-content-center justify-content-sm-start mb-0">
                                 
-                                @if(contactPages !== undefined){
-                                    <li class="page-item" *ngFor="let page of contactPages.links">
+                                
+                                    <li class="page-item" *ngFor="let page of contactPages?.links">
                                         @if(page.label === '&laquo; Previous'  && contactPages.current_page > 1){
                                           <a (click)="paginateContact(contactPages.current_page - 1)" class="page-link" [class.active]="page.active">←</a>
                                         }
@@ -133,12 +133,13 @@
                                           <a (click)="paginateContact(page.label)" class="page-link" [class.active]="page.active">{{ page.label }}</a>
                                         }
                                       </li>
-                                }
+                                
                   
                               </ul>
                             </div>
                           </div>
                     </div>
+                    }
                 }@else{
                     <div class="card-body">
                         <p>Aucun enregistrement disponible</p>

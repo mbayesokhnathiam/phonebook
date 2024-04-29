@@ -38,18 +38,19 @@ export class TypeInstitutComponent implements OnInit{
   selectedVille!: Ville | undefined;
   filteredVille!: Ville;
 
+  currentPage = 1;
+
   ngOnInit(): void {
     
     this.formatVille();
     this.initCreateForm();
+    this.paginateTypes(this.currentPage);
   }
 
   initCreateForm() {
     this.createTypeForm = new FormGroup({
       id: new FormControl(''),
       nom: new FormControl('', [Validators.required]),
-      villeId: new FormControl('', [Validators.required])
-
     });
   }
 
@@ -73,7 +74,7 @@ export class TypeInstitutComponent implements OnInit{
               icon: "success"
             });
             this.nomVille = '';
-            this.paginateTypes(1,this.selectedVille?.id);
+            this.paginateTypes(this.currentPage);
             this.createTypeForm.reset();
           }else{
             Swal.fire({
@@ -89,8 +90,8 @@ export class TypeInstitutComponent implements OnInit{
     
   }
 
-  paginateTypes(page: any, ville:any){
-    this.settingsService.PaginateTypeInstitution(page,ville).subscribe((res) => {
+  paginateTypes(page: any){
+    this.settingsService.PaginateTypeInstitution(page).subscribe((res) => {
       this.typePages = res;
       this.types = this.typePages.data;
     });
@@ -182,23 +183,23 @@ export class TypeInstitutComponent implements OnInit{
     }
   }
 
-  selectOptionSearch(cab: Ville) {
-    // Vous pouvez faire ce que vous voulez avec l'option sélectionnée ici
-    this.selectedVille = cab;
+  // selectOptionSearch(cab: Ville) {
+  //   // Vous pouvez faire ce que vous voulez avec l'option sélectionnée ici
+  //   this.selectedVille = cab;
     
-    this.paginateTypes(1, cab.id);
+  //   this.paginateTypes(1, cab.id);
    
-    this.showOptionsSearch = !this.showOptionsSearch;
-    this.nomVilleSearch = cab.nom
+  //   this.showOptionsSearch = !this.showOptionsSearch;
+  //   this.nomVilleSearch = cab.nom
 
-    if(event){
-      const target = event.target as HTMLElement;
-      if (!target.closest('.autocomplete-list')) {
-        this.showOptionsSearch = false;
-      }
-    }
+  //   if(event){
+  //     const target = event.target as HTMLElement;
+  //     if (!target.closest('.autocomplete-list')) {
+  //       this.showOptionsSearch = false;
+  //     }
+  //   }
     
-  }
+  // }
 
   // End search
 
@@ -208,10 +209,6 @@ export class TypeInstitutComponent implements OnInit{
   edit(data: any){
     this.createTypeForm.get('id')?.setValue(data.id);
     this.createTypeForm.get('nom')?.setValue(data.nom);
-    this.createTypeForm.get('villeId')?.setValue(data.villeId);
-
-    let ville = this.rechercherVilleParId(data.villeId);
-    this.nomVille = ville.nom;
   }
 
   delete(data:any){
@@ -234,7 +231,7 @@ export class TypeInstitutComponent implements OnInit{
               text: res.message,
               icon: "success"
             });
-            this.paginateTypes(1,this.selectedVille?.id);
+            this.paginateTypes(this.currentPage);
           }else if(res.status === 400){
             Swal.fire({
               title: "Suppression",

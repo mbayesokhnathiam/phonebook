@@ -24,16 +24,23 @@ class DataController extends Controller
     public function typesInstituts(Request $request)
     {
         $ville = $request->input('ville');
-        return TypeInstitut::query()->where('villeId',$ville)->get();
+        if($ville){
+            return TypeInstitut::query()->where('villeId',$ville)->get();
+        }
+
+        return TypeInstitut::all();
     }
 
 
     public function instituts(Request $request)
     {
         $type = $request->input('type');
+        $ville = $request->input('ville');
 
         if($type)
-            return Institut::query()->where('typeInstitutId',$type)->get();
+            return Institut::query()->where('typeInstitutId',$type)
+                ->where('villeId',$ville)
+                ->get();
         else
             return Institut::all();
     }

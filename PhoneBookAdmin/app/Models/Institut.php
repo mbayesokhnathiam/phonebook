@@ -16,8 +16,15 @@ class Institut extends Model
         'site_web',
         'adresse',
         'telephone_fixe',
-        'typeInstitutId'
+        'typeInstitutId',
+        'villeId',
+        'paysId',
     ];
+
+    public function ville(): BelongsTo
+    {
+        return $this->belongsTo(Ville::class, 'villeId');
+    }
 
     public function typeinstitut(): BelongsTo
     {

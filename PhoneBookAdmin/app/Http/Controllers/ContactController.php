@@ -113,7 +113,7 @@ class ContactController extends Controller
      */
     public function show(string $id)
     {
-        return Contact::with('institut.typeInstitut.ville.pays')->find($id);
+        return Contact::with('institut.ville.pays')->find($id);
     }
 
     /**
@@ -142,7 +142,7 @@ class ContactController extends Controller
 
     public function formatContact()
     {
-        $contacts = Contact::with('institut.typeinstitut.ville.pays')
+        $contacts = Contact::with('institut.ville.pays')
             ->orderBy('nom')
             ->get(); // Récupère toutes les villes avec leurs pays
 
@@ -153,7 +153,7 @@ class ContactController extends Controller
 
             return [
                 'id' => $contact->id,
-                'nom' => $contact->prenom.' '.$contact->nom.' / '.$contact->fonction.' / '.$contact->institut->nom.' / '.$contact->institut->typeinstitut->nom.' / '.$contact->institut->typeinstitut->ville->nom.' / '.$contact->institut->typeinstitut->ville->pays->nom_fr_fr
+                'nom' => $contact->prenom.' '.$contact->nom.' / '.$contact->fonction.' / '.$contact->institut->nom.' / '.$contact->institut->typeinstitut->nom.' / '.$contact->institut->ville->nom.' / '.$contact->institut->ville->pays->nom_fr_fr
 
             ];
         });
@@ -179,16 +179,16 @@ class ContactController extends Controller
             return $page;
         });
 
-        $query = Contact::with('institut.typeInstitut.ville.pays');
+        $query = Contact::with('institut.ville.pays');
 
         if ($pays) {
-            $query->whereHas('institut.typeInstitut.ville.pays', function ($q) use ($request) {
+            $query->whereHas('institut.ville.pays', function ($q) use ($request) {
                 $q->where('id', $request->pays);
             });
         }
 
         if ($ville) {
-            $query->whereHas('institut.typeInstitut.ville', function ($q) use ($request) {
+            $query->whereHas('institut.ville', function ($q) use ($request) {
                 $q->where('id', $request->ville);
             });
         }
@@ -250,7 +250,7 @@ class ContactController extends Controller
             return $page;
         });
 
-        $contacts = Contact::with('institut.typeInstitut.ville.pays')->where('favoris',true)->paginate($size);
+        $contacts = Contact::with('institut.ville.pays')->where('favoris',true)->paginate($size);
 
         return $contacts;
     }

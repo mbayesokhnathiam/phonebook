@@ -41,7 +41,7 @@ export class EditContactComponent implements OnInit {
 
   contactEdit!: Contact;
   contactId!: number;
-
+  selectedVilleId: any;
 
   initCreateForm() {
     this.updateContactForm = new FormGroup({
@@ -114,6 +114,7 @@ export class EditContactComponent implements OnInit {
 
   selectOption(cab: Institut) {
     // Vous pouvez faire ce que vous voulez avec l'option sélectionnée ici
+
     this.selectedInstitut = cab;
     if (this.updateContactForm) {
       const institutControl = this.updateContactForm.get('institutId');
@@ -148,14 +149,17 @@ export class EditContactComponent implements OnInit {
     this.contactService.getContactByid(id).subscribe((res) => {
       this.contactEdit = res;
       this.preRemplirFormulaire(this.contactEdit);
-      this.listInstitutParType(this.contactEdit.institut.id);
-      this.updateContactForm.get('pays')?.setValue(this.contactEdit.institut.type_institut.ville.pays.id);
-      this.listVillesParPays(this.contactEdit.institut.type_institut.ville.pays.id);
-      this.updateContactForm.get('ville')?.setValue(this.contactEdit.institut.type_institut.ville.id);
-      this.listTypesParVille(this.contactEdit.institut.type_institut.ville.id);
+      
+      this.updateContactForm.get('pays')?.setValue(this.contactEdit.institut.ville.pays.id);
+      this.listVillesParPays(this.contactEdit.institut.ville.pays.id);
+      this.updateContactForm.get('ville')?.setValue(this.contactEdit.institut.ville.id);
+      this.listTypesParVille(this.contactEdit.institut.ville.id);
+      this.updateContactForm.get('type')?.setValue(this.contactEdit.institut.typeInstitutId);
+      this.listInstitutParTypeAndValue(this.contactEdit.institut.typeInstitutId, this.contactEdit.institut.ville.id);
       this.filteredInstitut=this.contactEdit.institut;
       this.nomInstitut = this.contactEdit.institut.nom;
       this.selectedInstitut = this.contactEdit.institut;
+      this.filteredInstitut = this.contactEdit.institut;
       this.updateContactForm.get('institutId')?.setValue(this.contactEdit.institut.id);
       this.updateContactForm.get('id')?.setValue(this.contactEdit.id);
       
@@ -175,13 +179,13 @@ export class EditContactComponent implements OnInit {
   }
 
   listTypesParVille(id: number){
-    this.contactService.getTypeByCity(id).subscribe((res) => {
+    this.contactService.getTypes().subscribe((res) => {
       this.types = res;
     });
   }
 
-  listInstitutParType(id: number){
-    this.contactService.getInstitutByType(id).subscribe((res) => {
+  listInstitutParTypeAndValue(id: number, ville: number){
+    this.contactService.getInstitutByTypeAndVille(id, ville).subscribe((res) => {
       this.instituts = res;
     });
   }
@@ -189,14 +193,20 @@ export class EditContactComponent implements OnInit {
 
   onCountrieSelectChange(event: any){
     this.listVillesParPays(event.target.value); 
+    this.types = [];
+    this.instituts = [];
   }
 
   onVilleSelectChange(event: any){
+    this.selectedVilleId = event.target.value;
     this.listTypesParVille(event.target.value) 
+    this.instituts = [];
   }
 
   onTypeSelectChange(event: any){
-    this.listInstitutParType(event.target.value) 
+    this.nomInstitut = '';
+    this.selectedVilleId = event.target.value;
+    this.listInstitutParTypeAndValue(event.target.value, this.selectedVilleId); 
   }
 
   saveContact(){

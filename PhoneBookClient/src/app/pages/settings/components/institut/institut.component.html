@@ -26,6 +26,32 @@
                             placeholder="Entrer le nom de l'institution">
                     </div>
                     <div class="mb-3">
+                      <label for="choices-publish-status-input" class="form-label">Pays<span
+                              style="color: red;">*</span></label>
+  
+                      <select class="form-control" formControlName="paysId" (change)="onCountrieSelectChange($event)">
+                          <option value="">Selectionner le pays</option>
+                          @for (country of pays; track country.id){
+                          <option [value]="country.id">
+                              {{ country.nom_fr_fr }}
+                          </option>
+                          }
+                      </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="choices-publish-status-input" class="form-label">Ville<span
+                      style="color: red;">*</span></label>
+                    <select class="form-control" data-choices data-choices-search-false formControlName="villeId">
+                      <option value="" selected>Selectionner la ville</option>
+                      @for (ville of villes; track ville.id){
+                      <option [value]="ville.id">
+                          {{ ville.nom }}
+                      </option>
+                      }
+                  </select>
+                  </div>
+                    <!-- <div class="mb-3">
                         <label for="choices-publish-status-input" class="form-label">Type de l'institution<span
                                 style="color: red;">*</span></label>
     
@@ -34,6 +60,18 @@
                         <ul class="autocomplete-list" *ngIf="showOptions">
                             <li *ngFor="let i of filteredTypes" (click)="selectOption(i)">{{ i.nom }}</li>
                         </ul>
+                    </div> -->
+                    <div class="mb-3">
+                      <label for="choices-publish-status-input" class="form-label">Type de l'institution<span
+                        style="color: red;">*</span></label>
+                      <select class="form-control" data-choices data-choices-search-false formControlName="typeInstitutId">
+                        <option value="" selected>Selectionner le type de l'institution</option>
+                        @for (type of types; track type.id){
+                        <option [value]="type.id">
+                            {{ type.nom }}
+                        </option>
+                        }
+                    </select>
                     </div>
                 </form>
                 

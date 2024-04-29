@@ -41,6 +41,9 @@ export class ImportContactsComponent implements OnInit {
   filteredInstitut!: Institut;
   fileEvent: any;
 
+  selectedVilleId: any;
+  selectedTypeId: any;
+
   initCreateForm() {
     this.createContactForm = new FormGroup({
       institutId: new FormControl('', [Validators.required]),
@@ -148,13 +151,13 @@ export class ImportContactsComponent implements OnInit {
   }
 
   listTypesParVille(id: number){
-    this.contactService.getTypeByCity(id).subscribe((res) => {
+    this.contactService.getTypes().subscribe((res) => {
       this.types = res;
     });
   }
 
-  listInstitutParType(id: number){
-    this.contactService.getInstitutByType(id).subscribe((res) => {
+  listInstitutParTypeAndVille(id: number, ville: number){
+    this.contactService.getInstitutByTypeAndVille(id, ville).subscribe((res) => {
       this.instituts = res;
     });
   }
@@ -165,11 +168,20 @@ export class ImportContactsComponent implements OnInit {
   }
 
   onVilleSelectChange(event: any){
-    this.listTypesParVille(event.target.value) 
+    this.selectedVilleId = event.target.value;
+    this.listTypesParVille(event.target.value)
+    if(this.selectedTypeId && this.selectedVilleId){
+      this.listInstitutParTypeAndVille(this.selectedTypeId, event.target.value)
+    } 
   }
 
   onTypeSelectChange(event: any){
-    this.listInstitutParType(event.target.value) 
+    this.selectedTypeId = event.target.value;
+
+    if(this.selectedTypeId && this.selectedVilleId){
+      this.listInstitutParTypeAndVille(event.target.value, this.selectedVilleId)
+    }
+     
   }
 
   saveContact(){

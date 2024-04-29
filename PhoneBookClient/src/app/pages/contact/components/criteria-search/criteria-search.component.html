@@ -151,7 +151,7 @@
                                         <h6 class="mb-1"><span class="label-box">Fixe:</span><a href="tel:{{ data.telephone_fixe ? data.telephone_fixe : '' }}"> {{ data.telephone_fixe ? data.telephone_fixe : 'N/A' }}</a></h6>
                                         <h6 class="mb-1"><span class="label-box">Email:</span> <a href="mailto:{{ data.email ?  data.email : ''}}"> {{ data.email ?  data.email : 'N/A'}}</a></h6>
                                         <h6 class="mb-1">{{ data.institut.nom}}</h6>
-                                        <h6 class="mb-1">{{data.institut.type_institut.ville.nom}}, {{data.institut.type_institut.ville.pays.nom_fr_fr}}</h6>
+                                        <h6 class="mb-1">{{data.institut.ville.nom}}, {{data.institut.ville.pays.nom_fr_fr}}</h6>
                                         <div class="text-end">
                                             <a (click)="onClickOnFavoris(data.id)" class="lh-1 align-middle link-primary mat-edit-delete-icon cursor-link" ><i title="{{!data.favoris ? 'Ajouter aux favoris' : 'Retirer des favoris'}}"  class="{{!data.favoris ? 'mdi mdi-star-outline' : 'mdi mdi-star-off-outline'}}"></i></a>
                                             <a *ngIf="userData.role ==='GESTIONNAIRE'" (click)="navigateToEdit(data.id)" class="lh-1 align-middle link-primary mat-edit-delete-icon cursor-link"><i class="mdi mdi-lead-pencil" title="Modifier ce contact"></i></a>

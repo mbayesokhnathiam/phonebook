@@ -16,10 +16,7 @@ class TypeInstitut extends Model
         'villeId'
     ];
 
-    public function ville(): BelongsTo
-    {
-        return $this->belongsTo(Ville::class, 'villeId');
-    }
+
 
     public function instituts(): HasMany
     {

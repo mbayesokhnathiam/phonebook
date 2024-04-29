@@ -19,7 +19,7 @@
                                 <label for="choices-publish-status-input" class="form-label">Pays<span
                                         style="color: red;">*</span></label>
                                 <select class="form-control" formControlName="pays" (change)="onCountrieSelectChange($event)">
-                                    <option value="" disabled selected>Selectionner le pays</option>
+                                    <option value="" disabled>Selectionner le pays</option>
                                     @for (country of pays; track country.id){
                                     <option [value]="country.id">
                                         {{ country.nom_fr_fr }}
@@ -32,7 +32,7 @@
                                         style="color: red;">*</span></label>
                                 <select formControlName="ville" class="form-control" data-choices data-choices-search-false
                                     (change)="onVilleSelectChange($event)">
-                                    <option value="" selected disabled>Selectionner la ville</option>
+                                    <option value="" selected>Selectionner la ville</option>
                                     @for (ville of villes; track ville.id){
                                     <option [value]="ville.id">
                                         {{ ville.nom }}
@@ -44,7 +44,7 @@
                                 <label for="choices-publish-status-input" class="form-label">Type d'institution<span
                                         style="color: red;">*</span></label>
                                 <select class="form-control" formControlName="type" (change)="onTypeSelectChange($event)">
-                                    <option value="" selected disabled>Selectionner le type d'institution</option>
+                                    <option value="" selected>Selectionner le type d'institution</option>
                                     @for (type of types; track type.id){
                                     <option [value]="type.id">
                                         {{ type.nom }}
@@ -56,12 +56,24 @@
                                 <label for="choices-publish-status-input" class="form-label">Institution<span
                                         style="color: red;">*</span></label>
         
-                                <input type="text" [value]="nomInstitut" class="form-control" placeholder="Rechercher par institution"
+                                <input type="search" [value]="nomInstitut" class="form-control" placeholder="Rechercher par institution"
                                     (input)="onInputChange($event.target)">
                                 <ul class="autocomplete-list" *ngIf="showOptions">
                                     <li *ngFor="let i of filteredInstituts" (click)="selectOption(i)">{{ i.nom }}</li>
                                 </ul>
                             </div>
+                            <!-- <div class="mb-3">
+                                <label for="choices-publish-status-input" class="form-label">Institution<span
+                                        style="color: red;">*</span></label>
+                                <select class="form-control" formControlName="institutId">
+                                    <option value="" selected>Selectionner l'institution</option>
+                                    @for (ins of instituts; track ins.id){
+                                    <option [value]="ins.id">
+                                        {{ ins.nom }}
+                                    </option>
+                                    }
+                                </select>
+                            </div> -->
         
         
         

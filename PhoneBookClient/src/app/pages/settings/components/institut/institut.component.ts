@@ -4,6 +4,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TypeInstitut } from 'src/app/pages/contact/models/type.model';
 import Swal from 'sweetalert2';
 import { InstitutItem, InstitutType, PageType, TypeItem } from '../../models/parametre.model';
+import { ContactService } from 'src/app/pages/contact/services/contact.service';
+import { Pays } from 'src/app/pages/contact/models/pays.model';
+import { Ville } from 'src/app/pages/contact/models/ville.model';
 
 @Component({
   selector: 'app-institut',
@@ -12,7 +15,7 @@ import { InstitutItem, InstitutType, PageType, TypeItem } from '../../models/par
 })
 export class InstitutComponent implements OnInit{
 
-  constructor(private settingsService: SettingsService){}
+  constructor(private settingsService: SettingsService, private contactService: ContactService){}
 
   institutPages!: InstitutType | undefined;
   selectedTypeId!: number;
@@ -36,10 +39,15 @@ export class InstitutComponent implements OnInit{
   selectedType!: TypeItem | null;
   filteredType!: TypeItem;
 
+  pays: Pays[] = [];
+
+  villes: Ville[] = [];
+
   ngOnInit(): void {
     
     this.formatType();
     this.initCreateForm();
+    this.listPays();
   }
 
   initCreateForm() {
@@ -48,8 +56,16 @@ export class InstitutComponent implements OnInit{
       nom: new FormControl('', [Validators.required]),
       adresse: new FormControl(''),
       telephone_fixe: new FormControl(''),
-      typeInstitutId: new FormControl('', [Validators.required])
+      typeInstitutId: new FormControl('', [Validators.required]),
+      paysId: new FormControl('', [Validators.required]),
+      villeId: new FormControl('', [Validators.required])
 
+    });
+  }
+
+  listPays(){
+    this.contactService.getListCountries().subscribe((res) => {
+      this.pays = res;
     });
   }
 
@@ -74,8 +90,11 @@ export class InstitutComponent implements OnInit{
               icon: "success"
             });
             this.nomType = '';
+            
+            this.paginateInstitutions(1, this.createInstitutForm.get('typeInstitutId')?.value);
+            this.villes = [];
+            this.createInstitutForm.get('paysId')?.setValue('');
             this.createInstitutForm.reset();
-            this.paginateInstitutions(1, this.selectedType?.id);
           }else{
             Swal.fire({
               title: "Erreur!",
@@ -103,6 +122,20 @@ export class InstitutComponent implements OnInit{
     });
   }
 
+  onCountrieSelectChange(event: any){
+
+    if(event.target.value !== ''){
+      this.listVillesParPays(event.target.value); 
+      
+    }
+  }
+
+  listVillesParPays(id: number){
+
+    this.contactService.getCityByCountrie(id).subscribe((res) => {
+      this.villes = res;
+    });
+  }
   onInputChange(target: any) {
     this.filteredTypes = this.types.filter(i =>
       i.nom.toLowerCase().includes(target.value.toLowerCase())
@@ -214,6 +247,9 @@ export class InstitutComponent implements OnInit{
     this.createInstitutForm.get('nom')?.setValue(data.nom);
     this.createInstitutForm.get('adresse')?.setValue(data.adresse);
     this.createInstitutForm.get('telephone_fixe')?.setValue(data.telephone_fixe);
+    this.createInstitutForm.get('paysId')?.setValue(data.paysId);
+    this.listVillesParPays(data.paysId);
+    this.createInstitutForm.get('villeId')?.setValue(data.villeId);
     this.createInstitutForm.get('typeInstitutId')?.setValue(data.typeInstitutId);
 
     let type = this.rechercherTypeParId(data.typeInstitutId);

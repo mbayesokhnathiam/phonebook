@@ -37,6 +37,7 @@ export class CreerContactComponent implements OnInit {
   showOptions: boolean = false;
   selectedInstitut!: Institut;
   filteredInstitut!: Institut;
+  selectedVilleId: any;
 
 
   initCreateForm() {
@@ -60,6 +61,7 @@ export class CreerContactComponent implements OnInit {
   ngOnInit(): void {
     this.initCreateForm();
     this.listPays();
+    this.listTypes();
   }
 
 
@@ -131,14 +133,14 @@ export class CreerContactComponent implements OnInit {
     });
   }
 
-  listTypesParVille(id: number){
-    this.contactService.getTypeByCity(id).subscribe((res) => {
+  listTypes(){
+    this.contactService.getTypes().subscribe((res) => {
       this.types = res;
     });
   }
 
-  listInstitutParType(id: number){
-    this.contactService.getInstitutByType(id).subscribe((res) => {
+  listInstitutParTypeAndVille(id: number, ville: number){
+    this.contactService.getInstitutByTypeAndVille(id,ville).subscribe((res) => {
       this.instituts = res;
     });
   }
@@ -149,11 +151,11 @@ export class CreerContactComponent implements OnInit {
   }
 
   onVilleSelectChange(event: any){
-    this.listTypesParVille(event.target.value) 
+    this.selectedVilleId = event.target.value;
   }
 
   onTypeSelectChange(event: any){
-    this.listInstitutParType(event.target.value) 
+    this.listInstitutParTypeAndVille(event.target.value, this.selectedVilleId) 
   }
 
   saveContact(){
@@ -179,6 +181,9 @@ export class CreerContactComponent implements OnInit {
             });
             this.nomInstitut = '';
             this.createContactForm.reset();
+            this.instituts = [];
+            this.villes = [];
+            this.types = [];
       
           }else{
             Swal.fire({
