@@ -29,8 +29,5 @@ class Institut extends Model
         return $this->hasMany(Contact::class, 'institutId');
     }
 
-    public function setNomAttribute($value)
-    {
-        $this->attributes['nom'] = ucfirst(strtolower($value));
-    }
+
 }

@@ -27,8 +27,4 @@ class Ville extends Model
     }
 
 
-    public function setNomAttribute($value)
-    {
-        $this->attributes['nom'] = ucfirst(strtolower($value));
-    }
 }
