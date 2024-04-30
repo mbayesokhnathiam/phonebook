@@ -107,6 +107,7 @@ export class AdvancedSearchComponent  implements OnInit{
     this.nomTypeSearch = '';
     this.data = null;
     this.filteredContactSearch = []; // Réinitialiser la valeur de recherche
+    this.favorisContact(this.currentPage);
 }
 
 
@@ -136,6 +137,7 @@ export class AdvancedSearchComponent  implements OnInit{
             icon: "success"
           });
           this.clearSearch();
+          this.favorisContact(this.currentPage);
         });
       }
     })

@@ -100,6 +100,17 @@ export class SettingsService {
     );
   }
 
+  downloadExcel(): void {
+    const filePath = 'assets/file/contacts_import_template.xlsx'; // Chemin vers le fichier Excel dans le répertoire assets
+    this.http.get(filePath, { responseType: 'blob' }).subscribe(response => {
+      const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const downloadLink = document.createElement('a');
+      downloadLink.href = window.URL.createObjectURL(blob);
+      downloadLink.download = 'contacts_import_template.xlsx'; // Nom du fichier téléchargé
+      downloadLink.click();
+    });
+  }
+
 }
 
 

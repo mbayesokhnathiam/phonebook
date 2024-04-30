@@ -80,13 +80,18 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="mb-3 text-end">
+                                <a (click)="downloadFileTemplate()" class="search-link cursor-link">
+                                    Télécharger le modèle
+                                </a>
+                             </div>
                         </div>
                         <div class="card-footer">
                             <div class="text-end mb-3">
                                 <button (click)="saveContact()" [disabled]="!createContactForm.valid" type="submit" class="btn btn-primary w-sm">Importer</button>
                             </div>
                         </div>
+                        
                     </div>
                     
                     <!-- end card -->

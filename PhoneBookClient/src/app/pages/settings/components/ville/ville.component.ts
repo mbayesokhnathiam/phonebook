@@ -26,6 +26,8 @@ export class VilleComponent  implements OnInit{
 
   pays: Pays[] = [];
 
+  currentPage = 1;
+
 
   ngOnInit(): void {
     this.listPays();
@@ -73,10 +75,13 @@ export class VilleComponent  implements OnInit{
               text: res.message,
               icon: "success"
             });
-            this.createVilleForm.reset();
+           
             if(this.selectedPaysId !== 0){
-              this.paginateVilles(1,this.selectedPaysId);
+              this.paginateVilles(this.currentPage,this.selectedPaysId);
+            }else{
+              this.paginateVilles(this.currentPage,this.createVilleForm.get('paysId')?.value);
             }
+            this.createVilleForm.reset();
           }else{
             Swal.fire({
               title: "Erreur!",
@@ -92,6 +97,7 @@ export class VilleComponent  implements OnInit{
   }
 
   paginateVilles(page: any, pays:any){
+    this.currentPage = page;
     this.settingsService.PaginateVille(page,pays).subscribe((res) => {
       this.villePages = res;
       this.villes = this.villePages.data;
@@ -124,7 +130,7 @@ export class VilleComponent  implements OnInit{
               text: res.message,
               icon: "success"
             });
-            this.paginateVilles(1,this.selectedPaysId);
+            this.paginateVilles(this.currentPage,this.selectedPaysId);
           }else if(res.status === 400){
             Swal.fire({
               title: "Suppression",

@@ -7,6 +7,7 @@ import { TypeInstitut } from 'src/app/pages/contact/models/type.model';
 import { Ville } from 'src/app/pages/contact/models/ville.model';
 import { ContactService } from 'src/app/pages/contact/services/contact.service';
 import Swal from 'sweetalert2';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'app-import-contacts',
@@ -55,7 +56,7 @@ export class ImportContactsComponent implements OnInit {
     });
   }
 
-  constructor(private contactService: ContactService, private router: Router) { }
+  constructor(private contactService: ContactService, private settingService: SettingsService) { }
   ngOnInit(): void {
     this.initCreateForm();
     this.listPays();
@@ -182,6 +183,10 @@ export class ImportContactsComponent implements OnInit {
       this.listInstitutParTypeAndVille(event.target.value, this.selectedVilleId)
     }
      
+  }
+
+  downloadFileTemplate(){
+    this.settingService.downloadExcel();
   }
 
   saveContact(){

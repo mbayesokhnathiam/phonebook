@@ -43,6 +43,8 @@ export class InstitutComponent implements OnInit{
 
   villes: Ville[] = [];
 
+  currentPage = 1;
+
   ngOnInit(): void {
     
     this.formatType();
@@ -90,8 +92,14 @@ export class InstitutComponent implements OnInit{
               icon: "success"
             });
             this.nomType = '';
+
+            if(this.selectedType){
+              this.paginateInstitutions(this.currentPage, this.selectedType.id);
+            }else{
+              this.paginateInstitutions(this.currentPage, this.createInstitutForm.get('typeInstitutId')?.value);
+            }
             
-            this.paginateInstitutions(1, this.createInstitutForm.get('typeInstitutId')?.value);
+            
             this.villes = [];
             this.createInstitutForm.get('paysId')?.setValue('');
             this.createInstitutForm.reset();
@@ -110,6 +118,7 @@ export class InstitutComponent implements OnInit{
   }
 
   paginateInstitutions(page: any, ville:any){
+    this.currentPage = page;
     this.settingsService.PaginateInstitution(page,ville).subscribe((res) => {
       this.institutPages = res;
       this.instititutions = this.institutPages.data;
@@ -276,7 +285,7 @@ export class InstitutComponent implements OnInit{
               text: res.message,
               icon: "success"
             });
-            this.paginateInstitutions(1, this.selectedType?.id);
+            this.paginateInstitutions(this.currentPage, this.selectedType?.id);
           }else if(res.status === 400){
             Swal.fire({
               title: "Suppression",

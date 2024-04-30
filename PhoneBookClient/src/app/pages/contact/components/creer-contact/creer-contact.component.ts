@@ -61,7 +61,7 @@ export class CreerContactComponent implements OnInit {
   ngOnInit(): void {
     this.initCreateForm();
     this.listPays();
-    this.listTypes();
+    
   }
 
 
@@ -152,6 +152,7 @@ export class CreerContactComponent implements OnInit {
 
   onVilleSelectChange(event: any){
     this.selectedVilleId = event.target.value;
+    this.listTypes();
   }
 
   onTypeSelectChange(event: any){
