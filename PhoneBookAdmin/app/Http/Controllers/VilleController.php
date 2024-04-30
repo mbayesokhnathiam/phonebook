@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Institut;
 use App\Models\TypeInstitut;
 use App\Models\Ville;
 use Illuminate\Http\Request;
@@ -91,11 +92,13 @@ class VilleController extends Controller
      */
     public function destroy(string $id)
     {
-        $ville = Ville::with('typeInstituts')->find($id);
+        $instituts = Institut::query()->where('villeId',$id)->get();
 
-        if($ville->typeInstituts->count() > 0){
+        $ville = Ville::find($id);
+
+        if($instituts->count() > 0){
             return response()->json([
-                'status' => 400, 'message' => 'Cette ville ne peut pas être supprimée, veuillez supprimer les types d\'institution associés à cette ville!'
+                'status' => 400, 'message' => 'Cette ville ne peut pas être supprimée, veuillez supprimer les institutions associées à cette ville!'
             ]);
         }
 

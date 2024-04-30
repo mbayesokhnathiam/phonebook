@@ -106,7 +106,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => 201,
-            'message' => 'Mot de password réinitialisé avec succès!',
+            'message' => 'Mot de passe réinitialisé avec succès!',
         ]);
     }
 
